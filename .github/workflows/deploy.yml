@@ -4,6 +4,11 @@ on:
       - 'main'
   workflow_dispatch:
 name: Deploy
+
+env:
+  DOTNET_VERSION: '6.0' 
+  ARTIFACT_DIR: './artifacts'
+
 jobs:
   deploy-infra:
     runs-on: ubuntu-latest
@@ -23,3 +28,24 @@ jobs:
         template: ./infra/main.bicep
         parameters: 'tenantId=${{ secrets.AZURE_TENANT_ID }} principalId=${{ secrets.AZURE_CLIENT_ID }}'
         failOnStdErr: false
+  build-code:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@main
+    - name: 🔧 Setup DotNet ${{ env.DOTNET_VERSION }} Environment
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    - name: 🏗️ Build Solution
+      shell: powershell
+      run: |
+        mkdir -p ${{ env.ARTIFACT_DIR }}
+        dotnet publish ./src/CopyTheWorld/CopyTheWorld.sln --configuration Release
+        Compress-Archive -Path ./src/CopyTheWorld/CopyTheWorld.ApiData/bin/Release/net6.0/publish -DestinationPath ${{ env.ARTIFACT_DIR }}/CopyTheWorld.ApiData.zip
+        Compress-Archive -Path ./src/CopyTheWorld/CopyTheWorld.Functions/bin/Release/net6.0/publish -DestinationPath ${{ env.ARTIFACT_DIR }}/CopyTheWorld.Functions.zip
+        Compress-Archive -Path ./src/CopyTheWorld/CopyTheWorld.Simulations/bin/Release/net6.0/publish -DestinationPath ${{ env.ARTIFACT_DIR }}/CopyTheWorld.Simulations.zip
+    - name: ⬆️ Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: artifacts
+        path: ${{ env.ARTIFACT_DIR }}
