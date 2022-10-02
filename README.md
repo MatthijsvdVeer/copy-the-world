@@ -7,5 +7,5 @@ You can deploy this application to your Azure subscription. To do so, you'll nee
 AZURE_CREDENTIALS
 The contents of this secret can be generated with the following command:
 ```
-az ad sp create-for-rbac --name CTWGitHubActions --role contributor --scopes /subscriptions/{subscription-id}/resourceGroups/{resource-group-name} --sdk-auth
+az ad sp create-for-rbac --name CTWGitHubActions --role owner --scopes /subscriptions/{subscription-id}/resourceGroups/{resource-group-name} --sdk-auth
 ```
