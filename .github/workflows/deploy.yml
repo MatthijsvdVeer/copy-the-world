@@ -12,6 +12,10 @@ env:
 jobs:
   deploy-infra:
     runs-on: ubuntu-latest
+    outputs:
+      apiDataAppName: ${{ steps.deploy.outputs.apiDataAppName }}
+      simulationAppName: ${{ steps.deploy.outputs.simulationAppName }}
+      functionsAppName: ${{ steps.deploy.outputs.functionsAppName }}
     steps:
 
     - uses: actions/checkout@main
@@ -21,6 +25,7 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: deploy
+      id: deploy
       uses: azure/arm-deploy@v1
       with:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
@@ -28,10 +33,6 @@ jobs:
         template: ./infra/main.bicep
         parameters: 'tenantId=${{ secrets.AZURE_TENANT_ID }} principalId=${{ secrets.AZURE_CLIENT_ID }}'
         failOnStdErr: false
-    outputs:
-      apiDataAppName: ${{ steps.deploy.outputs.apiDataAppName }}
-      simulationAppName: ${{ steps.deploy.outputs.simulationAppName }}
-      functionsAppName: ${{ steps.deploy.outputs.functionsAppName }}
 
   build-code:
     runs-on: ubuntu-latest
