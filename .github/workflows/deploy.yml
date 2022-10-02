@@ -37,7 +37,7 @@ jobs:
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
     - name: 🏗️ Build Solution
-      shell: powershell
+      shell: pwsh
       run: |
         mkdir ${{ env.ARTIFACT_DIR }}
         dotnet publish ./src/CopyTheWorld/CopyTheWorld.sln --configuration Release
