@@ -72,3 +72,13 @@ jobs:
       shell: pwsh
       run: |
         az functionapp deploy --resource-group ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} --name ${{ needs.deploy-infra.outputs.apiDataAppName }} --src-path CopyTheWorld.ApiData.zip --type zip
+
+    - name: 🚀 Deploy Simulations Function
+      shell: pwsh
+      run: |
+        az functionapp deploy --resource-group ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} --name ${{ needs.deploy-infra.outputs.simulationAppName }} --src-path CopyTheWorld.Simulations.zip --type zip
+
+    - name: 🚀 Deploy Core Functions
+      shell: pwsh
+      run: |
+        az functionapp deploy --resource-group ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} --name ${{ needs.deploy-infra.outputs.functionsAppName }} --src-path CopyTheWorld.Functions.zip --type zip
