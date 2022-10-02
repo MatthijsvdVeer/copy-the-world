@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "CopyTheWorld.ApiData": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7169",
+      "launchBrowser": false
+    }
+  }
+}

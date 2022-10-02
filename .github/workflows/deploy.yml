@@ -1,0 +1,25 @@
+on:
+  push:
+    branches:
+      - 'main'
+  workflow_dispatch:
+name: Deploy
+jobs:
+  deploy-infra:
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@main
+
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: deploy
+      uses: azure/arm-deploy@v1
+      with:
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        resourceGroupName: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
+        template: ./infra/main.bicep
+        parameters: 'tenantId=${{ secrets.AZURE_TENANT_ID }} principalId=${{ secrets.AZURE_CLIENT_ID }}'
+        failOnStdErr: false
