@@ -28,6 +28,11 @@ jobs:
         template: ./infra/main.bicep
         parameters: 'tenantId=${{ secrets.AZURE_TENANT_ID }} principalId=${{ secrets.AZURE_CLIENT_ID }}'
         failOnStdErr: false
+  outputs:
+    apiDataAppName: ${{ steps.deploy.outputs.apiDataAppName }}
+    simulationAppName: ${{ steps.deploy.outputs.simulationAppName }}
+    functionsAppName: ${{ steps.deploy.outputs.functionsAppName }}
+
   build-code:
     runs-on: ubuntu-latest
     steps:
@@ -49,3 +54,13 @@ jobs:
       with:
         name: artifacts
         path: ${{ env.ARTIFACT_DIR }}
+  deploy-code:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/download-artifact@v3
+      with:
+        name: artifacts
+    - name: 🚀 Deploy ApiData Function
+      shell: pwsh
+      run: |
+        az functionapp deploy --resource-group ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} --name ${{ needs.deploy-infra.outputs.apiDataAppName }} --src-path CopyTheWorld.ApiData.zip

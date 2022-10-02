@@ -187,3 +187,6 @@ output patchesListenSecretUrl string = patchesHub.outputs.listenSecretUrl
 output patchesSendSecretUrl string = patchesHub.outputs.sendSecretUrl
 output ingressListenSecretUrl string = ingressHub.outputs.listenSecretUrl
 output ingressSendSecretUrl string = ingressHub.outputs.sendSecretUrl
+output apiDataAppName string = apiDataFunction.outputs.functionName
+output simulationAppName string = simulationFunction.outputs.functionName
+output functionsAppName string =  functions.outputs.functionName
