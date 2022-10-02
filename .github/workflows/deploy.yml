@@ -17,6 +17,9 @@ jobs:
       simulationAppName: ${{ steps.deploy.outputs.simulationAppName }}
       functionsAppName: ${{ steps.deploy.outputs.functionsAppName }}
       patchesListenSecretUrl: ${{ steps.deploy.outputs.patchesListenSecretUrl }}
+      patchesSendSecretUrl: ${{ steps.deploy.outputs.patchesSendSecretUrl }}
+      ingressListenSecretUrl: ${{ steps.deploy.outputs.ingressListenSecretUrl }}
+      ingressSendSecretUrl: ${{ steps.deploy.outputs.ingressSendSecretUrl }}
     steps:
 
     - uses: actions/checkout@main
