@@ -16,6 +16,7 @@ jobs:
       apiDataAppName: ${{ steps.deploy.outputs.apiDataAppName }}
       simulationAppName: ${{ steps.deploy.outputs.simulationAppName }}
       functionsAppName: ${{ steps.deploy.outputs.functionsAppName }}
+      patchesListenSecretUrl: ${{ steps.deploy.outputs.patchesListenSecretUrl }}
     steps:
 
     - uses: actions/checkout@main
@@ -82,3 +83,7 @@ jobs:
       shell: pwsh
       run: |
         az functionapp deploy --resource-group ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} --name ${{ needs.deploy-infra.outputs.functionsAppName }} --src-path CopyTheWorld.Functions.zip --type zip
+        az functionapp config appsettings set -n ${{ needs.deploy-infra.outputs.functionsAppName }} -g ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} --settings \
+          PatchesListen=${{ needs.deploy-infra.outputs.patchesListenSecretUrl }} \
+          PatchesSend=${{ needs.deploy-infra.outputs.patchesSendSecretUrl }} \
+          IngressListen=${{ needs.deploy-infra.outputs.ingressListenSecretUrl }} \
