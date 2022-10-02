@@ -39,7 +39,7 @@ jobs:
     - name: 🏗️ Build Solution
       shell: powershell
       run: |
-        mkdir -p ${{ env.ARTIFACT_DIR }}
+        mkdir ${{ env.ARTIFACT_DIR }}
         dotnet publish ./src/CopyTheWorld/CopyTheWorld.sln --configuration Release
         Compress-Archive -Path ./src/CopyTheWorld/CopyTheWorld.ApiData/bin/Release/net6.0/publish -DestinationPath ${{ env.ARTIFACT_DIR }}/CopyTheWorld.ApiData.zip
         Compress-Archive -Path ./src/CopyTheWorld/CopyTheWorld.Functions/bin/Release/net6.0/publish -DestinationPath ${{ env.ARTIFACT_DIR }}/CopyTheWorld.Functions.zip
