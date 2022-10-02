@@ -67,8 +67,8 @@ jobs:
     - uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-        
+
     - name: 🚀 Deploy ApiData Function
       shell: pwsh
       run: |
-        az functionapp deploy --resource-group ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} --name ${{ needs.deploy-infra.outputs.apiDataAppName }} --src-path CopyTheWorld.ApiData.zip
+        az functionapp deploy --resource-group ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} --name ${{ needs.deploy-infra.outputs.apiDataAppName }} --src-path CopyTheWorld.ApiData.zip --type zip
