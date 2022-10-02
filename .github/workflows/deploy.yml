@@ -63,6 +63,11 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: artifacts
+
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        
     - name: 🚀 Deploy ApiData Function
       shell: pwsh
       run: |
