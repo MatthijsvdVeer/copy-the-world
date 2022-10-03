@@ -1,0 +1,58 @@
+{
+    "@id": "dtmi:digitaltwins:ctw:City;1",
+    "@type": "Interface",
+    "contents": [
+        {
+            "@type": "Property",
+            "description": {
+                "en": "The name of the city"
+            },
+            "displayName": {
+                "en": "city"
+            },
+            "name": "city",
+            "schema": "string"
+        },
+        {
+            "@type": "Property",
+            "description": {
+                "en": "Population"
+            },
+            "displayName": {
+                "en": "population"
+            },
+            "name": "population",
+            "schema": "integer"
+        },
+        {
+            "@type": "Property",
+            "description": {
+                "en": "The current average temperature in the city"
+            },
+            "displayName": {
+                "en": "Temperature"
+            },
+            "name": "temperature",
+            "writable": true,
+            "schema": "double"
+        },
+        {
+            "@type": "Relationship",
+            "description": {
+                "en": "Property that defines what country this city is in"
+            },
+            "displayName": {
+                "en": "located in"
+            },
+            "name": "locatedIn",
+            "target": "dtmi:digitaltwins:ctw:Country;1"
+        }
+    ],
+    "description": {
+        "en": "A city is a large human settlement."
+    },
+    "displayName": {
+        "en": "City"
+    },
+    "@context": "dtmi:dtdl:context;2"
+}
