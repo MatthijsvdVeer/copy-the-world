@@ -1,10 +1,9 @@
 on:
   workflow_dispatch:
-name: ⬆️ Upload Models
+name: 🔥 Reset Azure Digital Twins Content
 
 jobs:
   reset-digital-twins:
-    name: 🔥 Reset Azure Digital Twins Content
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -13,7 +12,11 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: Delete Models
+    - name: 💾 Install Azure IoT Extension
+      shell: pwsh
+      run: az extension add -n azure-iot
+
+    - name: 🔥 Reset Azure Digital Twins
       shell: pwsh
       run: |
         $adtName = az dt list -g ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} --query [0].name --output tsv
