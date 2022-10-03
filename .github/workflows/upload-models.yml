@@ -5,6 +5,7 @@ name: ⬆️ Upload Models
 jobs:
   reset-digital-twins:
     name: 🔥 Reset Azure Digital Twins Content
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
 
