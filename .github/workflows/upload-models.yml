@@ -1,0 +1,21 @@
+on:
+  workflow_dispatch:
+name: ⬆️ Upload Models
+
+jobs:
+  reset-digital-twins:
+    name: 🔥 Reset Azure Digital Twins Content
+    steps:
+    - uses: actions/checkout@v3
+
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Delete Models
+      shell: pwsh
+      run: |
+        $adtName = az dt list -g ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} --query [0].name --output tsv
+        az dt twin delete-all -n $adtName -g ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} -y
+        az dt model delete-all -n $adtName -g ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} -y
+        az dt model create -n $adtName -g ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} --fd ./ontology
