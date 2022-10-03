@@ -1,0 +1,24 @@
+{
+    "@id": "dtmi:digitaltwins:ctw:Planet;1",
+    "@type": "Interface",
+    "contents": [
+      {
+        "@type": "Property",
+        "description": {
+          "en": "The name of the planet"
+        },
+        "displayName": {
+          "en": "name"
+        },
+        "name": "name",
+        "schema": "string"
+      }
+    ],
+    "description": {
+      "en": "A large, rounded astronomical body that is neither a star nor its remnant"
+    },
+    "displayName": {
+      "en": "Planet"
+    },
+    "@context": "dtmi:dtdl:context;2"
+  }

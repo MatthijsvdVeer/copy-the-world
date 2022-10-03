@@ -1,0 +1,35 @@
+{
+    "@id": "dtmi:digitaltwins:ctw:Country;1",
+    "@type": "Interface",
+    "contents": [
+      {
+        "@type": "Property",
+        "description": {
+          "en": "The name of the country"
+        },
+        "displayName": {
+          "en": "name"
+        },
+        "name": "name",
+        "schema": "string"
+      },
+      {
+          "@type": "Relationship",
+          "description": {
+              "en": "Property that defines what planet this country is on"
+          },
+          "displayName": {
+              "en": "located on"
+          },
+          "name": "locatedOn",
+          "target": "dtmi:digitaltwins:ctw:Planet;1"
+      }
+    ],
+    "description": {
+      "en": "A country is a distinct part of the world, such as a state, nation, or other political entity."
+    },
+    "displayName": {
+      "en": "Country"
+    },
+    "@context": "dtmi:dtdl:context;2"
+  }
