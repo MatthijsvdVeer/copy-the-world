@@ -159,6 +159,7 @@ var principalsForAzureDigitalTwins = [
   functions.outputs.principalId
   simulationFunction.outputs.principalId
   apiDataFunction.outputs.principalId
+  principalId
 ]
 
 module adtAccess 'modules/azure-digital-twins-data-owner.bicep' = {
