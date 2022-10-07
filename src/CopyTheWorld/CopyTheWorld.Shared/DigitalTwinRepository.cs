@@ -11,11 +11,11 @@ public sealed class DigitalTwinRepository
     public DigitalTwinRepository(DigitalTwinsClient digitalTwinsClient) =>
         this.digitalTwinsClient = digitalTwinsClient;
 
-    public async Task AddTwinAsync(BasicDigitalTwin twin)
+    public async Task AddTwinAsync(BasicDigitalTwin twin, CancellationToken cancellationToken)
     {
         try
         {
-            var response = await this.digitalTwinsClient.CreateOrReplaceDigitalTwinAsync(twin.Id, (object)twin);
+            var response = await this.digitalTwinsClient.CreateOrReplaceDigitalTwinAsync(twin.Id, (object)twin, cancellationToken: cancellationToken);
             if (response.GetRawResponse().Status == (int)HttpStatusCode.OK)
             {
                 await Console.Out.WriteLineAsync($"Added {twin.Id}");
@@ -33,13 +33,13 @@ public sealed class DigitalTwinRepository
         }
     }
 
-    public async Task AddRelationshipAsync(BasicRelationship relationship)
+    public async Task AddRelationshipAsync(BasicRelationship relationship, CancellationToken cancellationToken)
     {
         try
         {
             var response = await this.digitalTwinsClient.CreateOrReplaceRelationshipAsync(relationship.SourceId,
                 relationship.Id,
-                relationship);
+                relationship, cancellationToken: cancellationToken);
             if (response.GetRawResponse().Status == (int)HttpStatusCode.OK)
             {
                 await Console.Out.WriteLineAsync($"Added {relationship.Id}");

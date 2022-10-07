@@ -9,5 +9,6 @@
 
         public Dictionary<string, string> ExternalIds { get; set; }
 
+        protected AirQualitySensor() => this.ExternalIds = new Dictionary<string, string>();
     }
 }
