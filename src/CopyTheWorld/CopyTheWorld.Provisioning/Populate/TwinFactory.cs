@@ -22,6 +22,8 @@
                 "Zones" => GetObjects(new ZoneBuilder(), dataTable),
                 "Parking Lots" => GetObjects(new ParkingLotBuilder(), dataTable),
                 "Parking spots" => GetObjects(new ParkingSpotBuilder(), dataTable),
+                "RoomMotionSensors" => GetObjects(new MotionSensorBuilder(), dataTable),
+                "DeskMotionSensors" => GetObjects(new MotionSensorBuilder(), dataTable),
                 _ => new CreateTwinsAndRelationshipsResult()
             };
 
