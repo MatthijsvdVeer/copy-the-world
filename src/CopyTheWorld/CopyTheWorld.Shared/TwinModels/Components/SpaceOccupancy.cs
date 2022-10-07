@@ -5,4 +5,5 @@ using Azure.DigitalTwins.Core;
 [Dtmi("dtmi:digitaltwins:rec_3_3:SpaceOccupancy;1")]
 public sealed class SpaceOccupancy : BasicDigitalTwinComponent
 {
+    public bool IsOccupied { get; set; }
 }
