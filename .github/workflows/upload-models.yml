@@ -18,7 +18,7 @@ jobs:
       shell: pwsh
       run: |
         mkdir ${{ env.ARTIFACT_DIR }}
-        dotnet publish ./src/CopyTheWorld/CopyTheWorld.Provisioning/CopyTheWorld.Provisioning.csproj --configuration Release --sc -r linux-x64
+        dotnet publish ./src/CopyTheWorld/CopyTheWorld.Provisioning/CopyTheWorld.Provisioning.csproj --configuration Release --sc -r win-x64
         Copy-Item -Path "./src/CopyTheWorld/CopyTheWorld.Provisioning/bin/Release/net6.0/linux-x64/*" -Destination "${{ env.ARTIFACT_DIR }}" -Recurse
     - name: ⬆️ Upload Artifact
       uses: actions/upload-artifact@v3
@@ -30,12 +30,13 @@ jobs:
     needs: [build-provisioning]
     steps:
     - uses: actions/checkout@v3
+    
     - name: ⬇️ Download artifacts
       uses: actions/download-artifact@v3
       with:
         name: artifacts
 
-    - uses: azure/login@v1
+    - uses: 🔑 azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
