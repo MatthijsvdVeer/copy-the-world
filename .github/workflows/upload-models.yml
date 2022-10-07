@@ -57,4 +57,4 @@ jobs:
       shell: pwsh
       run: |
         $adtEndpoint = az dt list -g ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} --query [0].hostName --output tsv
-        CopyTheWorld.Provisioning.exe populate --file "./config/ctw.xlsx" --adtEndpoint https://$adtEndpoint
+        ./CopyTheWorld.Provisioning.exe populate --file "./config/ctw.xlsx" --adtEndpoint https://$adtEndpoint
