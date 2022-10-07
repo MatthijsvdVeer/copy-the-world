@@ -1,6 +1,6 @@
 ﻿namespace CopyTheWorld.Shared.TwinModels;
 
-[Dtmi("dtmi:digitaltwins:xdt:space:ParkingSpot;1")]
+[Dtmi("dtmi:digitaltwins:ctw:ParkingSpot;1")]
 public class ParkingSpot : Space
 {
 }
