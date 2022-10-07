@@ -12,7 +12,7 @@
       },
       "minMultiplicity": 0,
       "name": "includes",
-      "target": "dtmi:digitaltwins:xdt:space:ParkingSpot;1"
+      "target": "dtmi:digitaltwins:ctw:ParkingSpot;1"
     },
     {
       "@type": "Relationship",
