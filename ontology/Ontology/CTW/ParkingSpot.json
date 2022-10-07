@@ -1,0 +1,12 @@
+{
+  "@id": "dtmi:digitaltwins:ctw:ParkingSpot;1",
+  "@type": "Interface",
+  "description": {
+    "en": "A parking spot"
+  },
+  "displayName": {
+    "en": "Parking Spot"
+  },
+  "extends": "dtmi:digitaltwins:rec_3_3:core:Space;1",
+  "@context": "dtmi:dtdl:context;2"
+}

@@ -1,0 +1,35 @@
+{
+  "@id": "dtmi:digitaltwins:ctw:ParkingLot;1",
+  "@type": "Interface",
+  "contents": [
+    {
+      "@type": "Relationship",
+      "description": {
+        "en": "Parking spots in this lot."
+      },
+      "displayName": {
+        "en": "includes"
+      },
+      "minMultiplicity": 0,
+      "name": "includes",
+      "target": "dtmi:digitaltwins:xdt:space:ParkingSpot;1"
+    },
+    {
+      "@type": "Relationship",
+      "description": {
+        "en": "The building it servers"
+      },
+      "displayName": {
+        "en": "serves"
+      },
+      "minMultiplicity": 0,
+      "name": "serves",
+      "target": "dtmi:digitaltwins:rec_3_3:core:Building;1"
+    }
+  ],
+  "displayName": {
+    "en": "Parking Lot"
+  },
+  "extends": "dtmi:digitaltwins:rec_3_3:core:SpaceCollection;1",
+  "@context": "dtmi:dtdl:context;2"
+}
