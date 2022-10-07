@@ -29,6 +29,8 @@
                 }
             };
 
+            building.ExternalIds["coords"] = dataRow.GetStringValue("Coordinates");
+
             var city = dataRow.GetStringValue("CityTwin");
             var relationship = TwinUtility.GetRelationshipFor(building.Id, "locatedIn", city);
 
