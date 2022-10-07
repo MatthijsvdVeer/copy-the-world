@@ -10,7 +10,7 @@
             "displayName": {
                 "en": "city"
             },
-            "name": "city",
+            "name": "name",
             "schema": "string"
         },
         {
