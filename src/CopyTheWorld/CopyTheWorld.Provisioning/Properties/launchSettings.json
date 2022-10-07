@@ -2,7 +2,7 @@
   "profiles": {
     "CopyTheWorld.Provisioning": {
       "commandName": "Project",
-      "commandLineArgs": "--file ../../config/ctw.xslx --adtInstance https://foo"
+      "commandLineArgs": "populate --file ../../../../../../config/ctw.xlsx --adtEndpoint https://foo"
     }
   }
 }

@@ -59,12 +59,12 @@
 
                 foreach (var twin in twins)
                 {
-                    await digitalTwinRepository.AddTwinAsync(twin);
+                    await digitalTwinRepository.AddTwinAsync(twin, cancellationToken);
                 }
 
                 foreach (var relationship in relationships)
                 {
-                    await digitalTwinRepository.AddRelationshipAsync(relationship);
+                    await digitalTwinRepository.AddRelationshipAsync(relationship, cancellationToken);
                 }
             }
             catch (Exception exception)

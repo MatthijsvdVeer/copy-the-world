@@ -12,4 +12,6 @@ public sealed class MotionSensor : BasicDigitalTwin
     public bool LastValue { get; set; }
 
     public Dictionary<string, string> ExternalIds { get; set; }
+
+    public MotionSensor() => this.ExternalIds = new Dictionary<string, string>();
 }
