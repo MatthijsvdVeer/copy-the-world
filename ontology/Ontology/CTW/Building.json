@@ -1,0 +1,25 @@
+{
+    "@id": "dtmi:digitaltwins:ctw:Building;1",
+    "@type": "Interface",
+    "description": {
+        "en": "A confined building structure."
+    },
+    "displayName": {
+        "en": "Building"
+    },
+    "contents": [
+        {
+            "@type": "Relationship",
+            "description": {
+                "en": "What city this building is located in"
+            },
+            "displayName": {
+                "en": "located in"
+            },
+            "name": "locatedIn",
+            "target": "dtmi:digitaltwins:ctw:City;1"
+        }
+    ],
+    "extends": "dtmi:digitaltwins:rec_3_3:core:Building;1",
+    "@context": "dtmi:dtdl:context;2"
+}

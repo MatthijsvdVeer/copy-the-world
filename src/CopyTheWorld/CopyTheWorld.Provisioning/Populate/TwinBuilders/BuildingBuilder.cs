@@ -29,7 +29,10 @@
                 }
             };
 
-            return (building, TwinUtility.EmptyRelation);
+            var city = dataRow.GetStringValue("CityTwin");
+            var relationship = TwinUtility.GetRelationshipFor(building.Id, "locatedIn", city);
+
+            return (building, relationship);
         }
     }
 }
