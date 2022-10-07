@@ -17,7 +17,7 @@
     {
       "@type": "Relationship",
       "description": {
-        "en": "The building it servers"
+        "en": "The building it serves"
       },
       "displayName": {
         "en": "serves"

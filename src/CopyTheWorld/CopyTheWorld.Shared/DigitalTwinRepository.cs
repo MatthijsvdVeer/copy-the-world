@@ -22,10 +22,12 @@ public sealed class DigitalTwinRepository
                 return;
             }
 
-            await Console.Out.WriteLineAsync($"COULD NOT ADD {twin.Id} ({response.GetRawResponse().Status})");
+            await Console.Out.WriteLineAsync(
+                $"Could not add {twin.Id}. HTTP status: {response.GetRawResponse().Status}");
         }
         catch (RequestFailedException exception)
         {
+            await Console.Error.WriteLineAsync($"Could not add twin {twin.Id}");
             await Console.Error.WriteLineAsync(exception.Message);
             throw;
         }
@@ -35,7 +37,8 @@ public sealed class DigitalTwinRepository
     {
         try
         {
-            var response = await this.digitalTwinsClient.CreateOrReplaceRelationshipAsync(relationship.SourceId, relationship.Id,
+            var response = await this.digitalTwinsClient.CreateOrReplaceRelationshipAsync(relationship.SourceId,
+                relationship.Id,
                 relationship);
             if (response.GetRawResponse().Status == (int)HttpStatusCode.OK)
             {
@@ -47,6 +50,7 @@ public sealed class DigitalTwinRepository
         }
         catch (RequestFailedException exception)
         {
+            await Console.Error.WriteLineAsync($"Could not add relation {relationship.Id}");
             await Console.Error.WriteLineAsync(exception.Message);
             throw;
         }
