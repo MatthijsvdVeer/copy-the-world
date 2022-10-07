@@ -1,12 +1,39 @@
 on:
   workflow_dispatch:
 name: 🔥 Reset Azure Digital Twins Content
+env:
+  DOTNET_VERSION: '6.0' 
+  ARTIFACT_DIR: './artifacts'
 
 jobs:
+  build-provisioning:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@main
+    - name: 🔧 Setup DotNet ${{ env.DOTNET_VERSION }} Environment
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    - name: 🏗️ Build Solution
+      shell: pwsh
+      run: |
+        mkdir ${{ env.ARTIFACT_DIR }}
+        dotnet publish ./src/CopyTheWorld/CopyTheWorld.Provisioning/CopyTheWorld.Provisioning.csproj --configuration Release --sc -r linux-x64
+        Copy-Item -Path "./src/CopyTheWorld/CopyTheWorld.Provisioning/bin/Release/net6.0/linux-x64/*" -Destination "${{ env.ARTIFACT_DIR }}" -Recurse
+    - name: ⬆️ Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: artifacts
+        path: ${{ env.ARTIFACT_DIR }}
   reset-digital-twins:
     runs-on: windows-latest
+    needs: [build-provisioning]
     steps:
     - uses: actions/checkout@v3
+    - name: ⬇️ Download artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: artifacts
 
     - uses: azure/login@v1
       with:
@@ -23,3 +50,9 @@ jobs:
         az dt twin delete-all -n $adtName -g ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} -y
         az dt model delete-all -n $adtName -g ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} -y
         az dt model create -n $adtName -g ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} --fd ./ontology
+        
+    - name: 🐣 Create new twins and relationships
+      shell: pwsh
+      run: |
+        $adtEndpoint = az dt list -g ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} --query [0].hostName --output tsv
+        CopyTheWorld.Provisioning populate --file "./config/ctw.xlsx" --adtEndpoint https://$adtEndpoint
