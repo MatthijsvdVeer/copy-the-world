@@ -1,0 +1,18 @@
+﻿namespace CopyTheWorld.Provisioning.Populate.TwinBuilders;
+
+using Azure.DigitalTwins.Core;
+using DigitalTwin.Provisioning;
+using Shared.TwinModels;
+using System.Data;
+
+internal sealed class MotionSensorBuilder : ITwinBuilder<MotionSensor>
+{
+    public (MotionSensor, BasicRelationship) CreateTwinAndRelationship(DataRow dataRow)
+    {
+        var id = dataRow.GetStringValue("ID");
+        var target = dataRow.GetStringValue("Target");
+        var motionSensor = new MotionSensor {Id = id, Name = id, BatteryLevel = -1, LastValue = false};
+        var relationship = TwinUtility.GetRelationshipFor(id, "observes", target);
+        return (motionSensor, relationship);
+    }
+}

@@ -1,0 +1,22 @@
+{
+  "@id": "dtmi:digitaltwins:ctw:ParkingLot;1",
+  "@type": "Interface",
+  "displayName": {
+    "en": "Motion sensor"
+  },
+  "contents": [
+    {
+      "@type": "Property",
+      "description": {
+        "en": "Battery level"
+      },
+      "displayName": {
+        "en": "Battery level"
+      },
+      "name": "batteryLevel",
+      "schema": "double"
+    }
+  ],
+  "extends": "dtmi:digitaltwins:rec_3_3:device:MotionSensor;1",
+  "@context": "dtmi:dtdl:context;2"
+}
