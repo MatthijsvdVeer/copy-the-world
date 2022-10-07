@@ -2,7 +2,7 @@
 
 using Azure.DigitalTwins.Core;
 
-[Dtmi("dtmi:digitaltwins:xdt:core:ParkingLot;1")]
+[Dtmi("dtmi:digitaltwins:ctw:ParkingLot;1")]
 public sealed class ParkingLot : BasicDigitalTwin
 {
     public Dictionary<string, string> ExternalIds { get; set; }
