@@ -5,13 +5,13 @@ using DigitalTwin.Provisioning;
 using Shared.TwinModels;
 using System.Data;
 
-internal sealed class MotionSensorBuilder : ITwinBuilder<MotionSensor>
+internal sealed class TemperatureSensorBuilder : ITwinBuilder<TemperatureSensor>
 {
-    public (MotionSensor, BasicRelationship) CreateTwinAndRelationship(DataRow dataRow)
+    public (TemperatureSensor, BasicRelationship) CreateTwinAndRelationship(DataRow dataRow)
     {
         var id = dataRow.GetStringValue("ID");
         var target = dataRow.GetStringValue("Target");
-        var motionSensor = new MotionSensor {Id = id, Name = id, BatteryLevel = -1, LastValue = false, ExternalIds = { ["deviceId"] = id } };
+        var motionSensor = new TemperatureSensor { Id = id, LastValue = -1, ExternalIds = { ["deviceId"] = id } };
         var relationship = TwinUtility.GetRelationshipFor(id, "observes", target);
         return (motionSensor, relationship);
     }
