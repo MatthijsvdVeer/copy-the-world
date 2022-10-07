@@ -11,6 +11,9 @@
         public CreateTwinsAndRelationshipsResult CreateTwinsAndRelationships(DataTable dataTable) =>
             dataTable.TableName switch
             {
+                "Planets" => GetObjects(new PlanetBuilder(), dataTable),
+                "Countries" => GetObjects(new CountryBuilder(), dataTable),
+                "Cities" => GetObjects(new CityBuilder(), dataTable),
                 "Buildings" => GetObjects(new BuildingBuilder(), dataTable),
                 "Levels" => GetObjects(new LevelBuilder(), dataTable),
                 "Rooms" => GetObjects(new RoomBuilder(), dataTable),
