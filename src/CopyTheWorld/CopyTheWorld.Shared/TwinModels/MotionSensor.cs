@@ -10,4 +10,6 @@ public sealed class MotionSensor : BasicDigitalTwin
     public double BatteryLevel { get; set; }
 
     public bool LastValue { get; set; }
+
+    public Dictionary<string, string> ExternalIds { get; set; }
 }

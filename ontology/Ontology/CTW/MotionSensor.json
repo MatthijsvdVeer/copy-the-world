@@ -1,5 +1,5 @@
 {
-  "@id": "dtmi:digitaltwins:ctw:ParkingLot;1",
+  "@id": "dtmi:digitaltwins:ctw:MotionSensor;1",
   "@type": "Interface",
   "displayName": {
     "en": "Motion sensor"
