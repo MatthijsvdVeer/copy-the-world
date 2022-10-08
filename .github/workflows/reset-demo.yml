@@ -79,9 +79,9 @@ jobs:
     - name: 💾 Install Azure IoT Extension
       shell: pwsh
       run: az extension add -n azure-iot
-      
+
     - name: 🌐 Create all devices
       shell: pwsh
       run: |
         $iotHub = az iot hub list -g ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} --query [0].properties.hostName --output tsv
-        ./CopyTheWorld.Provisioning.exe twins populate --file "./config/ctw.xlsx" --iotHub $iotHub
+        ./CopyTheWorld.Provisioning.exe iothub populate --file "./config/ctw.xlsx" --iotHub $iotHub
