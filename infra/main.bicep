@@ -217,13 +217,21 @@ module eventGridTopic 'modules/event-grid-topic.bicep' = {
   }
 }
 
-module sensorUpdates 'modules/event-grid-topic subscription.bicep' = {
+module sensorUpdates 'modules/event-grid-topic-subscription.bicep' = {
   name: 'sensor-updates-subscription'
   params: {
     dtmi: 'dtmi:digitaltwins:ctw:MotionSensor;1'
     eventGridTopicName: eventGridTopic.outputs.name
     functionAppName: functions.outputs.functionName
     functionName: 'MotionSensorUpdateFunction'
+  }
+}
+
+module adtEndpoint 'modules/azure-digital-twins-eg-endpoint.bicep' = {
+  name: 'adt-endpoint'
+  params: {
+    adtName: adt.outputs.azureDigitalTwinsName
+    topicName: eventGridTopic.outputs.name
   }
 }
 
