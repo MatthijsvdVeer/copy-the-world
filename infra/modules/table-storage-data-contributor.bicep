@@ -1,20 +1,20 @@
 param principalIds array
-param iotHubName string
+param storageAccountName string
 
-resource iotHub 'Microsoft.Devices/IotHubs@2021-07-02' existing = {
-  name: iotHubName
+resource storageAccount 'Microsoft.Storage/storageAccounts@2021-09-01' existing = {
+  name: storageAccountName
 }
 
-var iotHubDataContributor = '4fc6c259-987e-4a07-842e-c321cc9d413f'
-@description('This is the built-in IoT Hub Data Contributor role.')
+var adtDataOwner = '0a9a7e1f-b9d0-4cc4-a60d-0319b160aaa3'
+@description('This is the built-in Storage Table Data Contributor role.')
 resource contributorRoleDefinition 'Microsoft.Authorization/roleDefinitions@2018-01-01-preview' existing = {
   scope: subscription()
-  name: iotHubDataContributor
+  name: adtDataOwner
 }
 
 resource roleAssignment 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = [for principalId in principalIds: {
-  scope: iotHub
-  name: guid(iotHub.id, principalId, iotHubDataContributor)
+  scope: storageAccount
+  name: guid(storageAccount.id, principalId, adtDataOwner)
   properties: {
     roleDefinitionId: contributorRoleDefinition.id
     principalId: principalId

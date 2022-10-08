@@ -86,6 +86,18 @@ module mappingTable 'modules/table-storage.bicep' = {
   }
 }
 
+var tableDataContributorPrincipalIds = [
+  principalId
+]
+
+module tableDataContributors 'modules/table-storage-data-contributor.bicep' = {
+  name: 'table-storage-data-contributor'
+  params: {
+    principalIds: tableDataContributorPrincipalIds
+    storageAccountName: storageAccount.name
+  }
+}
+
 module appInsights 'modules/application-insights.bicep' = {
   name: 'application-insights'
   params: {
