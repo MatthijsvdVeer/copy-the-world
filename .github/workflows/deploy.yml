@@ -21,7 +21,7 @@ jobs:
       ingressListenSecretUrl: ${{ steps.deploy.outputs.ingressListenSecretUrl }}
       ingressSendSecretUrl: ${{ steps.deploy.outputs.ingressSendSecretUrl }}
       azureDigitalTwinsEndpoint: ${{ steps.deploy.outputs.azureDigitalTwinsEndpoint }}
-      azureDigitalTwinsEndpoint: ${{ steps.deploy.outputs.tableEndpoint }}
+      tableEndpoint: ${{ steps.deploy.outputs.tableEndpoint }}
     steps:
 
     - uses: actions/checkout@v3
