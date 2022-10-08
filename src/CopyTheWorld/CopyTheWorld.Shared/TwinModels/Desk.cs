@@ -1,6 +1,11 @@
 ﻿namespace CopyTheWorld.Shared.TwinModels;
 
-[Dtmi("dtmi:digitaltwins:rec_3_3:asset:Furniture;1")]
+using Components;
+
+[Dtmi("dtmi:digitaltwins:ctw:Desk;1")]
 public sealed class Furniture : Asset
 {
+    public SpaceOccupancy Occupancy { get; set; }
+
+    public Furniture() => this.Occupancy = new SpaceOccupancy();
 }

@@ -21,8 +21,7 @@ public sealed class ProcessEventHubMessageFunction
     [FunctionName("ProcessEventHubMessageFunction")]
     public async Task Run(
         [EventHubTrigger("ingress", Connection = "IngressListen", ConsumerGroup = "function")] EventData eventData,
-        [EventHub("patches", Connection = "PatchesSend")]
-        IAsyncCollector<string> outputEvents,
+        [EventHub("patches", Connection = "PatchesSend")] IAsyncCollector<string> outputEvents,
         ILogger log)
     {
         try
