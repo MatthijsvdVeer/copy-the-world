@@ -22,6 +22,7 @@ jobs:
       ingressListenSecretUrl: ${{ steps.deploy.outputs.ingressListenSecretUrl }}
       ingressSendSecretUrl: ${{ steps.deploy.outputs.ingressSendSecretUrl }}
       azureDigitalTwinsEndpoint: ${{ steps.deploy.outputs.azureDigitalTwinsEndpoint }}
+      azureDigitalTwinsName: ${{ steps.deploy.outputs.azureDigitalTwinsName }}
       tableEndpoint: ${{ steps.deploy.outputs.tableEndpoint }}
     steps:
 
@@ -78,6 +79,11 @@ jobs:
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: 🪧 Configure event routes
+      shell: pwsh
+      run: |
+        az dt route create -n ${{ needs.deploy-infra.outputs.azureDigitalTwinsName }} -g ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} --en changes --rn twin-updates --filter "type = 'Microsoft.DigitalTwins.Twin.Update'"
 
     - name: 🚀 Deploy ApiData Function
       shell: pwsh

@@ -245,3 +245,4 @@ output simulationAppName string = simulationFunction.outputs.functionName
 output functionsAppName string =  functions.outputs.functionName
 output azureDigitalTwinsEndpoint string = adt.outputs.azureDigitalTwinsEndpoint
 output tableEndpoint string = storageAccount.properties.primaryEndpoints.table
+output azureDigitalTwinsName string = adt.outputs.azureDigitalTwinsName
