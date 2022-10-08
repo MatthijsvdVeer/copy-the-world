@@ -230,6 +230,7 @@ module sensorUpdates 'modules/event-grid-topic-subscription.bicep' = {
 module adtEndpoint 'modules/azure-digital-twins-eg-endpoint.bicep' = {
   name: 'adt-endpoint'
   params: {
+    endpointName: 'changes'
     adtName: adt.outputs.azureDigitalTwinsName
     topicName: eventGridTopic.outputs.name
   }
