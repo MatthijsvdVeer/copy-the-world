@@ -217,13 +217,24 @@ module eventGridTopic 'modules/event-grid-topic.bicep' = {
   }
 }
 
-module sensorUpdates 'modules/event-grid-topic-subscription.bicep' = {
-  name: 'sensor-updates-subscription'
+module motionSensorUpdates 'modules/event-grid-topic-subscription.bicep' = {
+  name: 'motion-sensor-updates-subscription'
   params: {
     dtmi: 'dtmi:digitaltwins:ctw:MotionSensor;1'
     eventGridTopicName: eventGridTopic.outputs.name
     functionAppName: functions.outputs.functionName
     functionName: 'MotionSensorUpdateFunction'
+  }
+}
+
+module temperatureSensorUpdates 'modules/event-grid-topic-subscription.bicep' = {
+  
+  name: 'temperature-sensor-updates-subscription'
+  params: {
+    dtmi: 'dtmi:digitaltwins:rec_3_3:device:TemperatureSensor;1'
+    eventGridTopicName: eventGridTopic.outputs.name
+    functionAppName: functions.outputs.functionName
+    functionName: 'TemperatureSensorUpdateFunction'
   }
 }
 
