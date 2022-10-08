@@ -5,7 +5,7 @@ using CopyTheWorld.Provisioning;
 using Shared.TwinModels;
 using System.Data;
 
-internal sealed class Co2AirQualitySensorBuilderBuilder : ITwinBuilder<Co2AirQualitySensor>
+internal sealed class Co2AirQualitySensorBuilder : ITwinBuilder<Co2AirQualitySensor>
 {
     public (Co2AirQualitySensor, BasicRelationship) CreateTwinAndRelationship(DataRow dataRow)
     {

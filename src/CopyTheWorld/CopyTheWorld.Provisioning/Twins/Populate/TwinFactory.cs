@@ -24,6 +24,8 @@
                 "Parking spots" => GetObjects(new ParkingSpotBuilder(), dataTable),
                 "RoomMotionSensors" => GetObjects(new MotionSensorBuilder(), dataTable),
                 "DeskMotionSensors" => GetObjects(new MotionSensorBuilder(), dataTable),
+                "Co2Sensors" => GetObjects(new Co2AirQualitySensorBuilder(), dataTable),
+                "TemperatureSensors" => GetObjects(new TemperatureSensorBuilder(), dataTable),
                 _ => new CreateTwinsAndRelationshipsResult()
             };
 
