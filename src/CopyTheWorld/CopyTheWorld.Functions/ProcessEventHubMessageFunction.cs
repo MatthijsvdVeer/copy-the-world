@@ -25,26 +25,34 @@ public sealed class ProcessEventHubMessageFunction
         IAsyncCollector<string> outputEvents,
         ILogger log)
     {
-        var rowKey = eventData.SystemProperties[id].ToString();
-        var response = this.tableClient.GetEntity<MappingEntity>(rowKey, rowKey);
-        var mappingDefinitions = JsonSerializer.Deserialize<MappingDefinition[]>(response.Value.Mapping);
-        
-        var jsonNode = JsonNode.Parse(eventData.EventBody);
-        foreach (var mappingDefinition in mappingDefinitions)
+        try
         {
-            var propertyNode = GetJsonNodeByPath(jsonNode, mappingDefinition.Property);
-            var value = GetValueFromNode(mappingDefinition, propertyNode);
-
-            var twinPatch = new TwinPatch
+            var rowKey = eventData.SystemProperties[id].ToString();
+            var response = this.tableClient.GetEntity<MappingEntity>(rowKey, rowKey);
+            var mappingDefinitions = JsonSerializer.Deserialize<MappingDefinition[]>(response.Value.Mapping);
+        
+            var jsonNode = JsonNode.Parse(eventData.EventBody);
+            foreach (var mappingDefinition in mappingDefinitions)
             {
-                Value = value,
-                Property = mappingDefinition.TwinProperty,
-                TwinId = mappingDefinition.TwinId
-            };
+                var propertyNode = GetJsonNodeByPath(jsonNode, mappingDefinition.Property);
+                var value = GetValueFromNode(mappingDefinition, propertyNode);
 
-            var message = JsonSerializer.Serialize(twinPatch);
-            log.LogInformation(message);
-            await outputEvents.AddAsync(message);
+                var twinPatch = new TwinPatch
+                {
+                    Value = value,
+                    Property = mappingDefinition.TwinProperty,
+                    TwinId = mappingDefinition.TwinId
+                };
+
+                var message = JsonSerializer.Serialize(twinPatch);
+                log.LogInformation(message);
+                await outputEvents.AddAsync(message);
+            }
+        }
+        catch (Exception exception)
+        {
+            log.LogError(exception, $"Exception occured while parsing {eventData.EventBody}");
+            throw;
         }
     }
 
