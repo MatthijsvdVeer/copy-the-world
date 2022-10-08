@@ -227,9 +227,7 @@ module motionSensorUpdates 'modules/event-grid-topic-subscription.bicep' = {
   }
 }
 
-/*
 module temperatureSensorUpdates 'modules/event-grid-topic-subscription.bicep' = {
-  
   name: 'temperature-sensor-updates-subscription'
   params: {
     dtmi: 'dtmi:digitaltwins:rec_3_3:device:TemperatureSensor;1'
@@ -237,7 +235,17 @@ module temperatureSensorUpdates 'modules/event-grid-topic-subscription.bicep' = 
     functionAppName: functions.outputs.functionName
     functionName: 'TemperatureSensorUpdateFunction'
   }
-}*/
+}
+
+module co2SensorUpdates 'modules/event-grid-topic-subscription.bicep' = {
+  name: 'co2-sensor-updates-subscription'
+  params: {
+    dtmi: 'dtmi:digitaltwins:rec_3_3:device:CO2AirQualitySensor;1'
+    eventGridTopicName: eventGridTopic.outputs.name
+    functionAppName: functions.outputs.functionName
+    functionName: 'Co2SensorUpdateFunction'
+  }
+}
 
 module adtEndpoint 'modules/azure-digital-twins-eg-endpoint.bicep' = {
   name: 'adt-endpoint'
