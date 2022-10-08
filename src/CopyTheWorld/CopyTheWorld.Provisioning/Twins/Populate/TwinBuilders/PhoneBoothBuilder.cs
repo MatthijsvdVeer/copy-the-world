@@ -1,40 +1,40 @@
 ﻿namespace CopyTheWorld.Provisioning.Populate.TwinBuilders;
 
 using Azure.DigitalTwins.Core;
-using DigitalTwin.Provisioning;
+using CopyTheWorld.Provisioning;
 using Shared.TwinModels;
 using System.Data;
 
-internal sealed class RoomBuilder : ITwinBuilder<Room>
+internal class PhoneBoothBuilder : ITwinBuilder<PhoneBooth>
 {
-    public (Room, BasicRelationship) CreateTwinAndRelationship(DataRow dataRow)
+    public (PhoneBooth, BasicRelationship) CreateTwinAndRelationship(DataRow dataRow)
     {
         var id = dataRow.GetStringValue("ID");
         var building = dataRow.GetStringValue("Building");
         var zone = dataRow.GetStringValue("Zone");
         var level = dataRow.GetStringValue("Level");
 
-        string roomId;
+        string phoneBoothId;
         string relationTargetId;
         if (!string.IsNullOrEmpty(zone))
         {
-            roomId = TwinUtility.CreateIdFromParts(building, level, id);
+            phoneBoothId = TwinUtility.CreateIdFromParts(building, level, zone, id);
             relationTargetId = TwinUtility.CreateIdFromParts(building, level, zone);
         }
         else
         {
-            roomId = TwinUtility.CreateIdFromParts(building, level, id);
+            phoneBoothId = TwinUtility.CreateIdFromParts(building, level, id);
             relationTargetId = TwinUtility.CreateIdFromParts(building, level);
         }
 
-        var room = new Room
+        var phoneBooth = new PhoneBooth
         {
-            Id = roomId, 
+            Id = phoneBoothId,
             Name = dataRow.GetStringValue("Name")
         };
             
-        var relationship = TwinUtility.GetRelationshipFor(room.Id, "isPartOf", relationTargetId);
+        var relationship = TwinUtility.GetRelationshipFor(phoneBooth.Id, "isPartOf", relationTargetId);
 
-        return (room, relationship);
+        return (phoneBooth, relationship);
     }
 }
