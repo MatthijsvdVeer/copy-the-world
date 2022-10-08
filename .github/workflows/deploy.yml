@@ -80,6 +80,10 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+    - name: 💾 Install Azure IoT Extension
+      shell: pwsh
+      run: az extension add -n azure-iot
+
     - name: 🪧 Configure event routes
       shell: pwsh
       run: |
