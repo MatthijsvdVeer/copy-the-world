@@ -25,6 +25,7 @@ jobs:
       with:
         name: artifacts
         path: ${{ env.ARTIFACT_DIR }}
+
   reset-digital-twins:
     runs-on: windows-latest
     needs: [build-provisioning]
@@ -58,6 +59,7 @@ jobs:
       run: |
         $adtEndpoint = az dt list -g ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} --query [0].hostName --output tsv
         ./CopyTheWorld.Provisioning.exe twins populate --file "./config/ctw.xlsx" --adtEndpoint https://$adtEndpoint
+        
   add-devices:
     runs-on: windows-latest
     needs: [build-provisioning]
