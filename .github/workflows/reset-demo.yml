@@ -75,6 +75,11 @@ jobs:
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: 💾 Install Azure IoT Extension
+      shell: pwsh
+      run: az extension add -n azure-iot
+      
     - name: 🌐 Create all devices
       shell: pwsh
       run: |
