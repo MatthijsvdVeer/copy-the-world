@@ -138,6 +138,19 @@ module apiDataFunction 'modules/function.bicep' = {
   }
 }
 
+var tableDataContributorPrincipalIds = [
+  functions.outputs.principalId
+  principalId
+]
+
+module tableDataContributors 'modules/table-storage-data-contributor.bicep' = {
+  name: 'table-storage-data-contributor'
+  params: {
+    principalIds: tableDataContributorPrincipalIds
+    storageAccountName: storageAccount.name
+  }
+}
+
 module iotHub 'modules/iot-hub.bicep' = {
   name: 'iot-hub'
   params:{
