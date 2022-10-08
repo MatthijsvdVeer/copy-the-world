@@ -2,7 +2,7 @@
   "profiles": {
     "CopyTheWorld.Provisioning": {
       "commandName": "Project",
-      "commandLineArgs": "iothub populate --file ../../../../../../config/ctw.xlsx --iotHub iot-ctw-at2nxslyngosm.azure-devices.net"
+      "commandLineArgs": "iothub simulate --iotHub iot-ctw-at2nxslyngosm.azure-devices.net"
     }
   }
 }
