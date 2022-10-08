@@ -5,7 +5,7 @@ namespace CopyTheWorld.Functions
     internal class TwinUpdatePatch
     {
         [JsonPropertyName("value")]
-        public string Value { get; set; }
+        public object Value { get; set; }
 
         [JsonPropertyName("path")]
         public string Path { get; set; }
