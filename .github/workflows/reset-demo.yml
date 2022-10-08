@@ -85,3 +85,25 @@ jobs:
       run: |
         $iotHub = az iot hub list -g ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} --query [0].properties.hostName --output tsv
         ./CopyTheWorld.Provisioning.exe iothub populate --file "./config/ctw.xlsx" --iotHub $iotHub
+
+  create-mapping:
+    runs-on: windows-latest
+    needs: [build-provisioning]
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: ⬇️ Download artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: artifacts
+
+    - name: 🔑 Azure Login 
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: 🗺️ Create mapping
+      shell: pwsh
+      run: |
+        $storageEndpoint = az storage account list -g ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} --query [0].primaryEndpoints.table --output tsv
+        ./CopyTheWorld.Provisioning.exe mapping create --file "./config/ctw.xlsx" --storageEndpoint "$($storageEndpoint)mapping"

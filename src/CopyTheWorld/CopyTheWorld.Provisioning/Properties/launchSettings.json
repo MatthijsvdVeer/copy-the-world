@@ -2,7 +2,7 @@
   "profiles": {
     "CopyTheWorld.Provisioning": {
       "commandName": "Project",
-      "commandLineArgs": "iothub simulate --iotHub iot-ctw-at2nxslyngosm.azure-devices.net"
+      "commandLineArgs": "mapping create --file ../../../../../../config/ctw.xlsx --storageEndpoint https://foo/mapping"
     }
   }
 }
