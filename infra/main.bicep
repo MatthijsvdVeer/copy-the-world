@@ -217,6 +217,7 @@ module eventGridTopic 'modules/event-grid-topic.bicep' = {
   }
 }
 
+/*
 module sensorUpdates 'modules/event-grid-topic subscription.bicep' = {
   name: 'sensor-updates-subscription'
   params: {
@@ -226,7 +227,7 @@ module sensorUpdates 'modules/event-grid-topic subscription.bicep' = {
     functionName: 'MotionSensorUpdateFunction'
   }
 }
-
+*/
 output patchesListenSecretUrl string = patchesHub.outputs.listenSecretUrl
 output patchesSendSecretUrl string = patchesHub.outputs.sendSecretUrl
 output ingressListenSecretUrl string = ingressHub.outputs.listenSecretUrl
