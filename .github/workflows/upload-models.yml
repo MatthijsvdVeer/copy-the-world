@@ -1,6 +1,6 @@
 on:
   workflow_dispatch:
-name: 🔥 Reset Azure Digital Twins Content
+name: 🔥 Reset Demo Content
 env:
   DOTNET_VERSION: '6.0' 
   ARTIFACT_DIR: './artifacts'
