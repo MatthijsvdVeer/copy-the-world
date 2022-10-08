@@ -222,7 +222,7 @@ module sensorUpdates 'modules/event-grid-topic subscription.bicep' = {
   params: {
     dtmi: 'dtmi:digitaltwins:ctw:MotionSensor;1'
     eventGridTopicName: eventGridTopic.outputs.name
-    functionAppName: functions.outputs.id
+    functionAppName: functions.outputs.functionName
     functionName: 'MotionSensorUpdateFunction'
   }
 }
