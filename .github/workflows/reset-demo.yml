@@ -59,7 +59,11 @@ jobs:
       run: |
         $adtEndpoint = az dt list -g ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} --query [0].hostName --output tsv
         ./CopyTheWorld.Provisioning.exe twins populate --file "./config/ctw.xlsx" --adtEndpoint https://$adtEndpoint
+<<<<<<< HEAD
   
+=======
+        
+>>>>>>> 166812a (Added empty lines for readability)
   add-devices:
     runs-on: windows-latest
     needs: [build-provisioning]
