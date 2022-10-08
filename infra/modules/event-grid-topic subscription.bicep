@@ -16,7 +16,7 @@ resource function 'Microsoft.Web/sites/functions@2022-03-01' existing = {
 }
 
 resource subscription 'Microsoft.EventGrid/eventSubscriptions@2022-06-15' = {
-  name: 'subscription'
+  name: 'subscription-${functionName}'
   scope: topic
   properties: {
     filter: {
