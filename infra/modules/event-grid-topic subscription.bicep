@@ -1,14 +1,18 @@
 param eventGridTopicName string
 param dtmi string
-param functionApp string
+param functionAppName string
 param functionName string
 
 resource topic 'Microsoft.EventGrid/topics@2022-06-15' existing = {
   name: eventGridTopicName
 }
+resource functionApp 'Microsoft.Web/sites@2020-06-01' existing = {
+  name: functionAppName
+}
 
 resource function 'Microsoft.Web/sites/functions@2022-03-01' existing = {
-  name: '${functionApp}/${functionName}'
+  name: functionName
+  parent: functionApp
 }
 
 resource subscription 'Microsoft.EventGrid/eventSubscriptions@2022-06-15' = {
