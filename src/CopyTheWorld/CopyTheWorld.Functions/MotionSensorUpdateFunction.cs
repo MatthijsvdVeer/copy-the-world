@@ -22,6 +22,7 @@ public class MotionSensorUpdateFunction
         [EventHub("patches", Connection = "PatchesSend")] IAsyncCollector<string> outputEvents,
         ILogger log)
     {
+        log.LogInformation($"Received message for {eventGridEvent.Subject}");
         try
         {
             var twinId = eventGridEvent.Subject;
