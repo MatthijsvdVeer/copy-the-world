@@ -209,6 +209,24 @@ module keyVaultSecretsUsers 'modules/key-vault-secrets-user.bicep' = {
   }
 }
 
+module eventGridTopic 'modules/event-grid-topic.bicep' = {
+  name: 'event-grid-topic'
+  params: {
+    applicationName: applicationName
+    location: location
+  }
+}
+
+module sensorUpdates 'modules/event-grid-topic subscription.bicep' = {
+  name: 'sensor-updates-subscription'
+  params: {
+    dtmi: 'dtmi:digitaltwins:ctw:MotionSensor;1'
+    eventGridTopicName: eventGridTopic.outputs.name
+    functionApp: functions.outputs.id
+    functionName: 'MotionSensorUpdateFunction'
+  }
+}
+
 output patchesListenSecretUrl string = patchesHub.outputs.listenSecretUrl
 output patchesSendSecretUrl string = patchesHub.outputs.sendSecretUrl
 output ingressListenSecretUrl string = ingressHub.outputs.listenSecretUrl
