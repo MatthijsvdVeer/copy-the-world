@@ -14,12 +14,14 @@ public class TemperatureSensorUpdateFunction
 {
     private readonly DigitalTwinsClient digitalTwinsClient;
 
-    public TemperatureSensorUpdateFunction(DigitalTwinsClient digitalTwinsClient) => this.digitalTwinsClient = digitalTwinsClient;
+    public TemperatureSensorUpdateFunction(DigitalTwinsClient digitalTwinsClient) =>
+        this.digitalTwinsClient = digitalTwinsClient;
 
     [FunctionName("TemperatureSensorUpdateFunction")]
     public async Task Run(
-        [EventGridTrigger]EventGridEvent eventGridEvent,
-        [EventHub("patches", Connection = "PatchesSend")] IAsyncCollector<string> outputEvents,
+        [EventGridTrigger] EventGridEvent eventGridEvent,
+        [EventHub("patches", Connection = "PatchesSend")]
+        IAsyncCollector<string> outputEvents,
         ILogger log)
     {
         log.LogInformation($"Received message for {eventGridEvent.Subject}");
@@ -30,25 +32,23 @@ public class TemperatureSensorUpdateFunction
             var lastValue = twinUpdate.Data.Patches.SingleOrDefault(patch => string.Equals(patch.Path, "/lastValue"));
             if (lastValue == null)
             {
-                log.LogInformation("Occupancy hasn't changed.");
+                log.LogInformation("Temperature hasn't changed.");
                 return;
             }
-        
+
             const string query = @"
 SELECT space.$dtId
 FROM DIGITALTWINS sensors
 JOIN space RELATED sensors.observes
 WHERE sensors.$dtId = '{0}'";
 
-            
+
             var twins = this.digitalTwinsClient.Query<BasicDigitalTwin>(string.Format(query, twinId));
             foreach (var twin in twins)
             {
                 var twinPatch = new TwinPatch
                 {
-                    Value = lastValue.Value,
-                    Property = "/temperature/temperatureSensor",
-                    TwinId = twin.Id
+                    Value = lastValue.Value, Property = "/temperature/temperatureSensor", TwinId = twin.Id
                 };
 
                 var message = JsonSerializer.Serialize(twinPatch);

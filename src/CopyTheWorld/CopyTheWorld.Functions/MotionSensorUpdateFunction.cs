@@ -33,9 +33,9 @@ public class MotionSensorUpdateFunction
                 log.LogInformation("Occupancy hasn't changed.");
                 return;
             }
-        
+
             const string query = @"
-SELECT space
+SELECT space.$dtId
 FROM DIGITALTWINS sensors
 JOIN space RELATED sensors.observes
 WHERE sensors.$dtId = '{0}'";
@@ -45,9 +45,7 @@ WHERE sensors.$dtId = '{0}'";
             {
                 var twinPatch = new TwinPatch
                 {
-                    Value = occupied.Value,
-                    Property = "/occupancy/occupied",
-                    TwinId = twin.Id
+                    Value = occupied.Value, Property = "/occupancy/occupied", TwinId = twin.Id
                 };
 
                 var message = JsonSerializer.Serialize(twinPatch);
