@@ -32,7 +32,7 @@ internal sealed class SimulationHandler
             {
                 var deviceClient =
                     DeviceClient.CreateFromConnectionString(simulationConfig.ConnectionString, TransportType.Http1);
-                var timer = new Timer(this.Callback, new DeviceSimulation(simulationConfig, deviceClient, cancellationToken), random.Next(0, 500), 10000);
+                var timer = new Timer(this.Callback, new DeviceSimulation(simulationConfig, deviceClient, cancellationToken), random.Next(0, 59000), 60000);
                 timers.Add(timer);
             }
         }
