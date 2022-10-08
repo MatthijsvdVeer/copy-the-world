@@ -1,4 +1,4 @@
-﻿namespace DigitalTwin.Provisioning
+﻿namespace CopyTheWorld.Provisioning
 {
     using System;
     using System.Data;

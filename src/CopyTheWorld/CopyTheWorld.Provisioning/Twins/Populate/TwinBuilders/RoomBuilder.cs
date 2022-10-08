@@ -1,40 +1,40 @@
 ﻿namespace CopyTheWorld.Provisioning.Populate.TwinBuilders;
 
 using Azure.DigitalTwins.Core;
-using DigitalTwin.Provisioning;
+using CopyTheWorld.Provisioning;
 using Shared.TwinModels;
 using System.Data;
 
-internal class FurnitureBuilder : ITwinBuilder<Furniture>
+internal sealed class RoomBuilder : ITwinBuilder<Room>
 {
-    public (Furniture, BasicRelationship) CreateTwinAndRelationship(DataRow dataRow)
+    public (Room, BasicRelationship) CreateTwinAndRelationship(DataRow dataRow)
     {
         var id = dataRow.GetStringValue("ID");
         var building = dataRow.GetStringValue("Building");
         var zone = dataRow.GetStringValue("Zone");
         var level = dataRow.GetStringValue("Level");
 
-        string deskId;
+        string roomId;
         string relationTargetId;
         if (!string.IsNullOrEmpty(zone))
         {
-            deskId = TwinUtility.CreateIdFromParts(building, level, zone, id);
+            roomId = TwinUtility.CreateIdFromParts(building, level, id);
             relationTargetId = TwinUtility.CreateIdFromParts(building, level, zone);
         }
         else
         {
-            deskId = TwinUtility.CreateIdFromParts(building, level, id);
+            roomId = TwinUtility.CreateIdFromParts(building, level, id);
             relationTargetId = TwinUtility.CreateIdFromParts(building, level);
         }
 
-        var furniture = new Furniture
+        var room = new Room
         {
-            Id = deskId,
-            Name = id
+            Id = roomId, 
+            Name = dataRow.GetStringValue("Name")
         };
             
-        var relationship = TwinUtility.GetRelationshipFor(furniture.Id, "locatedIn", relationTargetId);
+        var relationship = TwinUtility.GetRelationshipFor(room.Id, "isPartOf", relationTargetId);
 
-        return (furniture, relationship);
+        return (room, relationship);
     }
 }

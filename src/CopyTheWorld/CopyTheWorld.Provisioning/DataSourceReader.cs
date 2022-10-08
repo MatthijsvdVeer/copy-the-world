@@ -1,4 +1,4 @@
-﻿namespace CopyTheWorld.Provisioning.Populate
+﻿namespace CopyTheWorld.Provisioning
 {
     using System.Data;
     using ExcelDataReader;
