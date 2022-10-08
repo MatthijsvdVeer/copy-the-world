@@ -148,9 +148,7 @@ module iotHub 'modules/iot-hub.bicep' = {
 }
 
 var iotHubDataContributorPrincipalIds = [
-  functions.outputs.principalId
-  simulationFunction.outputs.principalId
-  apiDataFunction.outputs.principalId
+  principalId
 ]
 
 module iotHubDataContributors 'modules/iot-hub-data-contributor.bicep' = {
