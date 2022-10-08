@@ -147,6 +147,20 @@ module iotHub 'modules/iot-hub.bicep' = {
   }
 }
 
+var iotHubDataContributorPrincipalIds = [
+  functions.outputs.principalId
+  simulationFunction.outputs.principalId
+  apiDataFunction.outputs.principalId
+]
+
+module iotHubDataContributors 'modules/iot-hub-data-contributor.bicep' = {
+  name: 'iot-hub-data-contributors'
+  params: {
+    iotHubName: iotHub.outputs.iotHubName
+    principalIds: iotHubDataContributorPrincipalIds
+  }
+}
+
 module adt 'modules/azure-digital-twins.bicep' = {
   name: 'azure-digital-twins'
   params: {
