@@ -20,15 +20,18 @@ jobs:
       patchesSendSecretUrl: ${{ steps.deploy.outputs.patchesSendSecretUrl }}
       ingressListenSecretUrl: ${{ steps.deploy.outputs.ingressListenSecretUrl }}
       ingressSendSecretUrl: ${{ steps.deploy.outputs.ingressSendSecretUrl }}
+      azureDigitalTwinsEndpoint: ${{ steps.deploy.outputs.azureDigitalTwinsEndpoint }}
+      azureDigitalTwinsEndpoint: ${{ steps.deploy.outputs.tableEndpoint }}
     steps:
 
     - uses: actions/checkout@v3
 
-    - uses: azure/login@v1
+    - name: 🔑 Azure Login 
+      uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: deploy
+    - name: Deploy
       id: deploy
       uses: azure/arm-deploy@v1
       with:
@@ -77,6 +80,7 @@ jobs:
       shell: pwsh
       run: |
         az functionapp deploy --resource-group ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} --name ${{ needs.deploy-infra.outputs.apiDataAppName }} --src-path CopyTheWorld.ApiData.zip --type zip
+        az functionapp config appsettings set -g ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} -n ${{ needs.deploy-infra.outputs.apiDataAppName }} --settings "PatchesSend=@Microsoft.KeyVault(SecretUri=${{ needs.deploy-infra.outputs.patchesSendSecretUrl }})" "AdtEndpoint=${{ needs.deploy-infra.outputs.azureDigitalTwinsEndpoint }}"
 
     - name: 🚀 Deploy Simulations Function
       shell: pwsh
@@ -87,4 +91,4 @@ jobs:
       shell: pwsh
       run: |
         az functionapp deploy --resource-group ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} --name ${{ needs.deploy-infra.outputs.functionsAppName }} --src-path CopyTheWorld.Functions.zip --type zip
-        az functionapp config appsettings set -n ${{ needs.deploy-infra.outputs.functionsAppName }} -g ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} --settings "PatchesListen=@Microsoft.KeyVault(SecretUri=${{ needs.deploy-infra.outputs.patchesListenSecretUrl }})" "PatchesSend=@Microsoft.KeyVault(SecretUri=${{ needs.deploy-infra.outputs.patchesSendSecretUrl }})" "IngressListen=@Microsoft.KeyVault(SecretUri=${{ needs.deploy-infra.outputs.ingressListenSecretUrl }})"
+        az functionapp config appsettings set  -g ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} -n ${{ needs.deploy-infra.outputs.functionsAppName }} --settings "PatchesListen=@Microsoft.KeyVault(SecretUri=${{ needs.deploy-infra.outputs.patchesListenSecretUrl }})" "PatchesSend=@Microsoft.KeyVault(SecretUri=${{ needs.deploy-infra.outputs.patchesSendSecretUrl }})" "IngressListen=@Microsoft.KeyVault(SecretUri=${{ needs.deploy-infra.outputs.ingressListenSecretUrl }})" "AdtEndpoint=${{ needs.deploy-infra.outputs.azureDigitalTwinsEndpoint }}" "TableEndpoint=${{ needs.deploy-infra.outputs.tableEndpoint }}" "TableName=mapping"
