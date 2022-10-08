@@ -33,6 +33,8 @@ internal sealed class AddDevicesToIoTHubHandler
 
             await AddDevicesForTable(dataSet, "RoomMotionSensors", "roomMotionSensor", registryManager,
                 cancellationToken);
+            await AddDevicesForTable(dataSet, "DeskMotionSensors", "deskMotionSensor", registryManager,
+                cancellationToken);
             await AddDevicesForTable(dataSet, "TemperatureSensors", "temperatureSensor", registryManager,
                 cancellationToken);
             await AddDevicesForTable(dataSet, "Co2Sensors", "co2Sensor", registryManager,
