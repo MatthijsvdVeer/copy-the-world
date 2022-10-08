@@ -1,4 +1,4 @@
-﻿namespace CopyTheWorld.Provisioning.Populate.TwinBuilders;
+﻿namespace CopyTheWorld.Provisioning.Twins.Populate.TwinBuilders;
 
 using Azure.DigitalTwins.Core;
 using System.Data;

@@ -1,8 +1,8 @@
-﻿namespace CopyTheWorld.Provisioning.Populate.TwinBuilders;
+﻿namespace CopyTheWorld.Provisioning.Twins.Populate.TwinBuilders;
 
 using Azure.DigitalTwins.Core;
 using CopyTheWorld.Provisioning;
-using Shared.TwinModels;
+using CopyTheWorld.Shared.TwinModels;
 using System.Data;
 
 internal sealed class ParkingLotBuilder : ITwinBuilder<ParkingLot>

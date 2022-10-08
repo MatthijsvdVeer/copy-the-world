@@ -1,9 +1,9 @@
-﻿namespace CopyTheWorld.Provisioning.Populate.TwinBuilders;
+﻿namespace CopyTheWorld.Provisioning.Twins.Populate.TwinBuilders;
 
 using Azure.DigitalTwins.Core;
 using CopyTheWorld.Provisioning;
-using Shared.TwinModels;
-using Shared.TwinModels.Components;
+using CopyTheWorld.Shared.TwinModels;
+using CopyTheWorld.Shared.TwinModels.Components;
 using System;
 using System.Data;
 

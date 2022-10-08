@@ -2,7 +2,6 @@
 
 using Azure.Identity;
 using Microsoft.Azure.Devices;
-using Microsoft.Azure.Devices.Common.Exceptions;
 using Microsoft.Azure.Devices.Shared;
 using System;
 using System.Data;
@@ -53,6 +52,11 @@ internal sealed class AddDevicesToIoTHubHandler
         RegistryManager registryManager, CancellationToken cancellationToken)
     {
         var table = dataSet.Tables[tableName];
+        if (table == null)
+        {
+            throw new InvalidOperationException("Table was not found.");
+        }
+
         var deviceIds = table.Rows.Cast<DataRow>().Select(row => row.GetStringValue("ID"));
         foreach (var deviceId in deviceIds)
         {
