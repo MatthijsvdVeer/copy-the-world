@@ -227,6 +227,7 @@ module motionSensorUpdates 'modules/event-grid-topic-subscription.bicep' = {
   }
 }
 
+/*
 module temperatureSensorUpdates 'modules/event-grid-topic-subscription.bicep' = {
   
   name: 'temperature-sensor-updates-subscription'
@@ -236,7 +237,7 @@ module temperatureSensorUpdates 'modules/event-grid-topic-subscription.bicep' = 
     functionAppName: functions.outputs.functionName
     functionName: 'TemperatureSensorUpdateFunction'
   }
-}
+}*/
 
 module adtEndpoint 'modules/azure-digital-twins-eg-endpoint.bicep' = {
   name: 'adt-endpoint'
