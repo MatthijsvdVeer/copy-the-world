@@ -26,7 +26,7 @@ public class MotionSensorUpdateFunction
         {
             var twinId = eventGridEvent.Subject;
             var twinUpdate = eventGridEvent.Data.ToObjectFromJson<TwinUpdate>();
-            var occupied = twinUpdate.Data.Patches.SingleOrDefault(patch => string.Equals(patch.Path, "/occupied"));
+            var occupied = twinUpdate.Data.Patches.SingleOrDefault(patch => string.Equals(patch.Path, "/lastValue"));
             if (occupied == null)
             {
                 log.LogInformation("Occupancy hasn't changed.");
