@@ -11,8 +11,8 @@ internal sealed class TemperatureSensorBuilder : ITwinBuilder<TemperatureSensor>
     {
         var id = dataRow.GetStringValue("ID");
         var target = dataRow.GetStringValue("Target");
-        var motionSensor = new TemperatureSensor { Id = id, LastValue = -1, ExternalIds = { ["deviceId"] = id } };
+        var temperatureSensor = new TemperatureSensor { Id = id, Name = id, LastValue = -1, ExternalIds = { ["deviceId"] = id } };
         var relationship = TwinUtility.GetRelationshipFor(id, "observes", target);
-        return (motionSensor, relationship);
+        return (temperatureSensor, relationship);
     }
 }
