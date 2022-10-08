@@ -19,8 +19,9 @@ namespace CopyTheWorld.Functions
             var tableEndpoint = builder.GetContext().Configuration["TableEndpoint"];
             var tableName = builder.GetContext().Configuration["TableName"];
             _ = builder.Services.AddSingleton(new TableClient(
-                $"{tableEndpoint}/{tableName}",
-                tableName));
+                new Uri($"{tableEndpoint}/{tableName}"),
+                tableName,
+                new DefaultAzureCredential()));
         }
     }
 }
