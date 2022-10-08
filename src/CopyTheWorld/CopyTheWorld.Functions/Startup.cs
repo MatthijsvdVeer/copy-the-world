@@ -14,7 +14,7 @@ namespace CopyTheWorld.Functions
         {
             var adtEndpoint = builder.GetContext().Configuration["AdtEndpoint"];
             _ = builder.Services.AddSingleton(new DigitalTwinsClient(
-                new Uri(adtEndpoint), new DefaultAzureCredential()));
+                new Uri($"https://{adtEndpoint}"), new DefaultAzureCredential()));
 
             var tableEndpoint = builder.GetContext().Configuration["TableEndpoint"];
             var tableName = builder.GetContext().Configuration["TableName"];
