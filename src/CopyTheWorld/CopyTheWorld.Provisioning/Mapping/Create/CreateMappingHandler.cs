@@ -69,11 +69,11 @@ internal class CreateMappingHandler
                     {
                         new()
                         {
-                            DataType = "bool", Property = "motionDetected", TwinId = target, TwinProperty = "/lastValue"
+                            DataType = "bool", Property = "MotionDetected", TwinId = target, TwinProperty = "/lastValue"
                         },
                         new()
                         {
-                            DataType = "double", Property = "batteryLevel", TwinId = target, TwinProperty = "/batteryLevel"
+                            DataType = "double", Property = "BatteryLevel", TwinId = target, TwinProperty = "/batteryLevel"
                         }
                     };
                 }
@@ -83,11 +83,11 @@ internal class CreateMappingHandler
                     {
                         new()
                         {
-                            DataType = "bool", Property = "motion", TwinId = target, TwinProperty = "/lastValue"
+                            DataType = "bool", Property = "Motion", TwinId = target, TwinProperty = "/lastValue"
                         },
                         new()
                         {
-                            DataType = "double", Property = "metadata/batteryLevel", TwinId = target, TwinProperty = "/batteryLevel"
+                            DataType = "double", Property = "Metadata/BatteryLevel", TwinId = target, TwinProperty = "/batteryLevel"
                         }
                     };
                 }
@@ -97,7 +97,7 @@ internal class CreateMappingHandler
                     {
                         new()
                         {
-                            DataType = "double", Property = "temperature", TwinId = target, TwinProperty = "/lastValue"
+                            DataType = "double", Property = "Temperature", TwinId = target, TwinProperty = "/lastValue"
                         }
                     };
                 }
@@ -107,7 +107,7 @@ internal class CreateMappingHandler
                     {
                         new()
                         {
-                            DataType = "int", Property = "co2", TwinId = target, TwinProperty = "/lastValue"
+                            DataType = "int", Property = "Co2", TwinId = target, TwinProperty = "/lastValue"
                         }
                     };
                 }
