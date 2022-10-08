@@ -35,11 +35,12 @@ public class TemperatureSensorUpdateFunction
             }
         
             const string query = @"
-SELECT space
+SELECT space.$dtId
 FROM DIGITALTWINS sensors
 JOIN space RELATED sensors.observes
 WHERE sensors.$dtId = '{0}'";
 
+            
             var twins = this.digitalTwinsClient.Query<BasicDigitalTwin>(string.Format(query, twinId));
             foreach (var twin in twins)
             {
