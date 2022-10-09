@@ -30,7 +30,7 @@ public class MotionSensorUpdateFunctionExample
 
         #endregion
 
-        #region Update The Sensor
+        #region Update The Sensor Twin
 
         const string sensorQueryTemplate = @"
 SELECT sensor.$dtId FROM DIGITALTWINS
@@ -41,19 +41,19 @@ WHERE sensor.externalIds.deviceId = {0}";
 
         var sensorPatchDocument = new JsonPatchDocument();
         sensorPatchDocument.AppendReplace("/lastValue", message.MotionDetected);
-        sensorPatchDocument.AppendReplace("/lastValue", message.BatteryLevel);
+        sensorPatchDocument.AppendReplace("/batteryLevel", message.BatteryLevel);
         _ = await this.digitalTwinsClient.UpdateDigitalTwinAsync(sensorTwin.Id, sensorPatchDocument);
 
         #endregion
 
-        #region Update The Room
+        #region Update The Room Twin
 
         const string roomQueryTemplate = @"
-SELECT room.$dtId FROM DIGITALTWINS.room
+SELECT room.$dtId FROM DIGITALTWINS room
 JOIN sensor RELATED sensor.observes
 WHERE sensor.$dtId = {0}";
 
-        var roomQuery = string.Format(sensorQueryTemplate, sensorTwin.Id);
+        var roomQuery = string.Format(roomQueryTemplate, sensorTwin.Id);
         var roomTwin = this.digitalTwinsClient.Query<BasicDigitalTwin>(roomQuery).Single();
         var roomPatchDocument = new JsonPatchDocument();
         roomPatchDocument.AppendReplace("/occupancy/isOccupied", message.MotionDetected);
