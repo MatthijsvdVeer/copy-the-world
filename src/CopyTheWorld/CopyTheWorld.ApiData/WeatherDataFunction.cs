@@ -26,9 +26,13 @@ public class WeatherDataFunction
         [EventHub("patches", Connection = "PatchesSend")] IAsyncCollector<string> outputEvents,
         ILogger log)
     {
+        #region Get the cities
         // Limitation, can't JOIN with $dtId filter.
         const string query = "SELECT city.$dtId FROM DIGITALTWINS city WHERE IS_OF_MODEL(city, 'dtmi:digitaltwins:ctw:City;1')";
         var cities = this.digitalTwinsClient.Query<BasicDigitalTwin>(query);
+        #endregion
+
+        #region Get weather capabilities
 
         var cityIds = cities.Select(twin => $"'{twin.Id}'");
         const string queryTemplate = @"
@@ -39,6 +43,11 @@ WHERE city.$dtId IN[{0}]
 ";
         var cityAndWeatherQuery = string.Format(queryTemplate, string.Join(',', cityIds));
         var results = this.digitalTwinsClient.Query<WeatherAndCityResult>(cityAndWeatherQuery);
+        
+        #endregion
+
+        #region Patch the weather
+
         foreach (var weatherAndCityResult in results)
         {
             var weather = this.weatherFacade.GetWeatherForCity(weatherAndCityResult.City);
@@ -60,6 +69,8 @@ WHERE city.$dtId IN[{0}]
 
             await SendPatch(outputEvents, log, temperaturePatch);
         }
+
+        #endregion
     }
 
     private static async Task SendPatch(IAsyncCollector<string> outputEvents, ILogger log, TwinPatch twinPatch)

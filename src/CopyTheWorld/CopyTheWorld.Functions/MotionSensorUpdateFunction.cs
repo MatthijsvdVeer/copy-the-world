@@ -32,7 +32,8 @@ public class MotionSensorUpdateFunction
 
             var twinId = eventGridEvent.Subject;
             var twinUpdate = eventGridEvent.Data.ToObjectFromJson<TwinUpdate>();
-            var occupied = twinUpdate.Data.Patches.SingleOrDefault(patch => string.Equals(patch.Path, "/lastValue"));
+            var occupied = twinUpdate.Data.Patches
+                .SingleOrDefault(patch => string.Equals(patch.Path, "/lastValue"));
             if (occupied == null)
             {
                 log.LogInformation("Occupancy hasn't changed.");
@@ -43,10 +44,9 @@ public class MotionSensorUpdateFunction
 
             #region Find Some Space
             const string query = @"
-            SELECT space.$dtId
-                FROM DIGITALTWINS sensors
-            JOIN space RELATED sensors.observes
-                WHERE sensors.$dtId = '{0}'";
+SELECT space.$dtId FROM DIGITALTWINS sensors
+JOIN space RELATED sensors.observes
+WHERE sensors.$dtId = '{0}'";
 
             var twins = this.digitalTwinsClient.Query<BasicDigitalTwin>(string.Format(query, twinId));
             #endregion
@@ -61,9 +61,13 @@ public class MotionSensorUpdateFunction
                     TwinId = twin.Id
                 };
 
+                #region Fire the patches!
+
                 var message = JsonSerializer.Serialize(twinPatch);
                 log.LogInformation(message);
                 await outputEvents.AddAsync(message);
+                
+                #endregion
             }
             #endregion
         }

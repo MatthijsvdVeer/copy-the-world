@@ -13,7 +13,6 @@ using System.Linq;
 
 public sealed class ProcessEventHubMessageFunction
 {
-    private const string id = "iothub-connection-device-id";
     private readonly TableClient tableClient;
 
     public ProcessEventHubMessageFunction(TableClient tableClient) => this.tableClient = tableClient;
@@ -27,7 +26,7 @@ public sealed class ProcessEventHubMessageFunction
         try
         {
             #region Get The Mapping
-            var rowKey = eventData.SystemProperties[id].ToString();
+            var rowKey = eventData.SystemProperties["iothub-connection-device-id"].ToString();
             var response = this.tableClient.GetEntity<MappingEntity>(rowKey, rowKey);
             var mappingDefinitions = JsonSerializer.Deserialize<MappingDefinition[]>(response.Value.Mapping);
             #endregion
