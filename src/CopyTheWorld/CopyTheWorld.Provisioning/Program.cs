@@ -2,7 +2,7 @@
 using CopyTheWorld.Provisioning.IotHub.Simulate;
 using CopyTheWorld.Provisioning.IotHub.SimulationConfig;
 using CopyTheWorld.Provisioning.Mapping.Create;
-using CopyTheWorld.Provisioning.Populate;
+using CopyTheWorld.Provisioning.Twins.Populate;
 using System.CommandLine;
 
 var returnCode = 0;

@@ -10,3 +10,4 @@ resource adt 'Microsoft.DigitalTwins/digitalTwinsInstances@2021-06-30-preview' =
 }
 
 output azureDigitalTwinsName string = adt.name
+output azureDigitalTwinsEndpoint string = adt.properties.hostName

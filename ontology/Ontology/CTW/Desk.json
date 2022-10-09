@@ -1,0 +1,19 @@
+{
+    "@id": "dtmi:digitaltwins:ctw:Desk;1",
+    "@type": "Interface",
+    "displayName": {
+      "en": "Furniture"
+    },
+    "contents": [
+        {
+            "@type": "Component",
+            "name": "occupancy",
+            "displayName": {
+              "en": "Occupancy"
+            },
+            "schema": "dtmi:digitaltwins:rec_3_3:SpaceOccupancy;1"
+          }
+    ],
+    "extends": "dtmi:digitaltwins:rec_3_3:asset:Furniture;1",
+    "@context": "dtmi:dtdl:context;2"
+  }

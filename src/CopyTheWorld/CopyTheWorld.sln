@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CopyTheWorld.ApiData", "Cop
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CopyTheWorld.Provisioning", "CopyTheWorld.Provisioning\CopyTheWorld.Provisioning.csproj", "{4E216BEA-54A0-4555-ABA9-B280FC1DDFE9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CopyTheWorld.Shared", "CopyTheWorld.Shared\CopyTheWorld.Shared.csproj", "{33D07B58-B1DF-4CFA-BD21-BEBF1C7F4806}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CopyTheWorld.Shared", "CopyTheWorld.Shared\CopyTheWorld.Shared.csproj", "{33D07B58-B1DF-4CFA-BD21-BEBF1C7F4806}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

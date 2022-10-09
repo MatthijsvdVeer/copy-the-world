@@ -49,9 +49,8 @@ internal class CreateMappingHandler
         var table = dataSet.Tables[tableName];
         foreach (DataRow tableRow in table.Rows)
         {
-            var target = tableRow.GetStringValue("Target");
-            var definitions = GetMappingDefinitions(target, tableName);
             var id = tableRow.GetStringValue("ID");
+            var definitions = GetMappingDefinitions(id, tableName);
             var mappingEntity = new MappingEntity { PartitionKey = id, RowKey = id, Mapping = JsonSerializer.Serialize(definitions) };
             entities.Add(mappingEntity);
         }
@@ -59,7 +58,7 @@ internal class CreateMappingHandler
         return entities;
     }
 
-    private static MappingDefinition[] GetMappingDefinitions(string target, string tableName)
+    private static MappingDefinition[] GetMappingDefinitions(string id, string tableName)
     {
         switch (tableName)
         {
@@ -69,11 +68,11 @@ internal class CreateMappingHandler
                     {
                         new()
                         {
-                            DataType = "bool", Property = "motionDetected", TwinId = target, TwinProperty = "/lastValue"
+                            DataType = "bool", Property = "MotionDetected", TwinId = id, TwinProperty = "/lastValue"
                         },
                         new()
                         {
-                            DataType = "double", Property = "batteryLevel", TwinId = target, TwinProperty = "/batteryLevel"
+                            DataType = "double", Property = "BatteryLevel", TwinId = id, TwinProperty = "/batteryLevel"
                         }
                     };
                 }
@@ -83,11 +82,11 @@ internal class CreateMappingHandler
                     {
                         new()
                         {
-                            DataType = "bool", Property = "motion", TwinId = target, TwinProperty = "/lastValue"
+                            DataType = "bool", Property = "Motion", TwinId = id, TwinProperty = "/lastValue"
                         },
                         new()
                         {
-                            DataType = "double", Property = "metadata/batteryLevel", TwinId = target, TwinProperty = "/batteryLevel"
+                            DataType = "double", Property = "Metadata/BatteryLevel", TwinId = id, TwinProperty = "/batteryLevel"
                         }
                     };
                 }
@@ -97,7 +96,7 @@ internal class CreateMappingHandler
                     {
                         new()
                         {
-                            DataType = "double", Property = "temperature", TwinId = target, TwinProperty = "/lastValue"
+                            DataType = "double", Property = "Temperature", TwinId = id, TwinProperty = "/lastValue"
                         }
                     };
                 }
@@ -107,7 +106,7 @@ internal class CreateMappingHandler
                     {
                         new()
                         {
-                            DataType = "int", Property = "co2", TwinId = target, TwinProperty = "/lastValue"
+                            DataType = "int", Property = "Co2", TwinId = id, TwinProperty = "/lastValue"
                         }
                     };
                 }

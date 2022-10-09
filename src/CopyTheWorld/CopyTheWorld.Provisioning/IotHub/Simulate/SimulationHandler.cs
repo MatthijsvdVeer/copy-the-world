@@ -28,11 +28,18 @@ internal sealed class SimulationHandler
             var simulationConfigs =
                 await JsonSerializer.DeserializeAsync<IEnumerable<SimulationConfiguration>>(File.OpenRead("./simulation.json"),
                     cancellationToken: cancellationToken);
+            if (simulationConfigs == null)
+            {
+                throw new InvalidOperationException("Configuraiton was not found.");
+            }
+
             foreach (var simulationConfig in simulationConfigs)
             {
                 var deviceClient =
                     DeviceClient.CreateFromConnectionString(simulationConfig.ConnectionString, TransportType.Http1);
-                var timer = new Timer(this.Callback, new DeviceSimulation(simulationConfig, deviceClient, cancellationToken), random.Next(0, 59000), 60000);
+                var timer = new Timer(Callback,
+                    new DeviceSimulation(simulationConfig, deviceClient, cancellationToken), random.Next(0, 59000),
+                    60000);
                 timers.Add(timer);
             }
         }
@@ -47,48 +54,31 @@ internal sealed class SimulationHandler
         return 0;
     }
 
-    private async void Callback(object? state)
+    private static async void Callback(object? state)
     {
         try
         {
-            var deviceSimulation = state as DeviceSimulation;
             object message;
-            switch (deviceSimulation.SimulationConfig.Type)
+            if (state is not DeviceSimulation deviceSimulation)
             {
-                case "roomMotionSensor":
-                    {
-                        message = new RoomMotionSensorMessage
-                        {
-                            MotionDetected = DateTime.UtcNow.Second % 2 == 0,
-                            BatteryLevel = 1 + 99 * random.NextDouble()
-                        };
-                        break;
-                    }
-                case "deskMotionSensor":
-                    {
-                        message = new DeskMotionSensorMessage
-                        {
-                            Motion = DateTime.UtcNow.Second % 2 == 0,
-                            MetaData = new DeskMotionSensorMetaData
-                            {
-                                BatteryLevel = 1 + random.Next(0, 100)
-                            }
-                        };
-                        break;
-                    }
-                case "temperatureSensor":
-                    {
-                        message = new TemperatureSensorMessage { Temperature = 18 + 4 * random.NextDouble() };
-                        break;
-                    }
-                case "co2Sensor":
-                    {
-                        message = new Co2MotionSensorMessage { Co2 = 500 + random.Next(0, 501) };
-                        break;
-                    }
-                default:
-                    throw new InvalidOperationException("The device type is not supported for simulation.");
+                throw new InvalidOperationException("State was not found at timer trigger.");
             }
+
+            message = deviceSimulation.SimulationConfig.Type switch
+            {
+                "roomMotionSensor" => new RoomMotionSensorMessage
+                {
+                    MotionDetected = DateTime.UtcNow.Second % 2 == 0, BatteryLevel = 1 + 99 * random.NextDouble()
+                },
+                "deskMotionSensor" => new DeskMotionSensorMessage
+                {
+                    Motion = DateTime.UtcNow.Second % 2 == 0,
+                    MetaData = new DeskMotionSensorMetaData { BatteryLevel = 1 + random.Next(0, 100) }
+                },
+                "temperatureSensor" => new TemperatureSensorMessage { Temperature = 18 + 4 * random.NextDouble() },
+                "co2Sensor" => new Co2MotionSensorMessage { Co2 = 500 + random.Next(0, 501) },
+                _ => throw new InvalidOperationException("The device type is not supported for simulation.")
+            };
 
             var messageAsJson = JsonSerializer.Serialize(message);
             var iotHubMessage = new Message(Encoding.UTF8.GetBytes(messageAsJson));

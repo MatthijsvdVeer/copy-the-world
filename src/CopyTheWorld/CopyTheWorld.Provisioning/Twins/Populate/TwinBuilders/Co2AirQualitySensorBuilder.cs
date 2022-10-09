@@ -1,18 +1,18 @@
-﻿namespace CopyTheWorld.Provisioning.Populate.TwinBuilders;
+﻿namespace CopyTheWorld.Provisioning.Twins.Populate.TwinBuilders;
 
 using Azure.DigitalTwins.Core;
 using CopyTheWorld.Provisioning;
-using Shared.TwinModels;
+using CopyTheWorld.Shared.TwinModels;
 using System.Data;
 
-internal sealed class Co2AirQualitySensorBuilderBuilder : ITwinBuilder<Co2AirQualitySensor>
+internal sealed class Co2AirQualitySensorBuilder : ITwinBuilder<Co2AirQualitySensor>
 {
     public (Co2AirQualitySensor, BasicRelationship) CreateTwinAndRelationship(DataRow dataRow)
     {
         var id = dataRow.GetStringValue("ID");
         var target = dataRow.GetStringValue("Target");
-        var motionSensor = new Co2AirQualitySensor { Id = id, LastValue = -1, ExternalIds = { ["deviceId"] = id } };
+        var airQualitySensor = new Co2AirQualitySensor { Id = id, Name = id, LastValue = -1, ExternalIds = { ["deviceId"] = id } };
         var relationship = TwinUtility.GetRelationshipFor(id, "observes", target);
-        return (motionSensor, relationship);
+        return (airQualitySensor, relationship);
     }
 }

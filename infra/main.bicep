@@ -209,6 +209,53 @@ module keyVaultSecretsUsers 'modules/key-vault-secrets-user.bicep' = {
   }
 }
 
+module eventGridTopic 'modules/event-grid-topic.bicep' = {
+  name: 'event-grid-topic'
+  params: {
+    applicationName: applicationName
+    location: location
+  }
+}
+
+module motionSensorUpdates 'modules/event-grid-topic-subscription.bicep' = {
+  name: 'motion-sensor-updates-subscription'
+  params: {
+    dtmi: 'dtmi:digitaltwins:ctw:MotionSensor;1'
+    eventGridTopicName: eventGridTopic.outputs.name
+    functionAppName: functions.outputs.functionName
+    functionName: 'MotionSensorUpdateFunction'
+  }
+}
+
+module temperatureSensorUpdates 'modules/event-grid-topic-subscription.bicep' = {
+  name: 'temperature-sensor-updates-subscription'
+  params: {
+    dtmi: 'dtmi:digitaltwins:rec_3_3:device:TemperatureSensor;1'
+    eventGridTopicName: eventGridTopic.outputs.name
+    functionAppName: functions.outputs.functionName
+    functionName: 'TemperatureSensorUpdateFunction'
+  }
+}
+
+module co2SensorUpdates 'modules/event-grid-topic-subscription.bicep' = {
+  name: 'co2-sensor-updates-subscription'
+  params: {
+    dtmi: 'dtmi:digitaltwins:rec_3_3:device:CO2AirQualitySensor;1'
+    eventGridTopicName: eventGridTopic.outputs.name
+    functionAppName: functions.outputs.functionName
+    functionName: 'Co2SensorUpdateFunction'
+  }
+}
+
+module adtEndpoint 'modules/azure-digital-twins-eg-endpoint.bicep' = {
+  name: 'adt-endpoint'
+  params: {
+    endpointName: 'changes'
+    adtName: adt.outputs.azureDigitalTwinsName
+    topicName: eventGridTopic.outputs.name
+  }
+}
+
 output patchesListenSecretUrl string = patchesHub.outputs.listenSecretUrl
 output patchesSendSecretUrl string = patchesHub.outputs.sendSecretUrl
 output ingressListenSecretUrl string = ingressHub.outputs.listenSecretUrl
@@ -216,3 +263,6 @@ output ingressSendSecretUrl string = ingressHub.outputs.sendSecretUrl
 output apiDataAppName string = apiDataFunction.outputs.functionName
 output simulationAppName string = simulationFunction.outputs.functionName
 output functionsAppName string =  functions.outputs.functionName
+output azureDigitalTwinsEndpoint string = adt.outputs.azureDigitalTwinsEndpoint
+output tableEndpoint string = storageAccount.properties.primaryEndpoints.table
+output azureDigitalTwinsName string = adt.outputs.azureDigitalTwinsName

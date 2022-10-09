@@ -7,6 +7,7 @@ env:
 
 jobs:
   build-provisioning:
+    name: 🏢 Build Provisioning Tool
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@main
@@ -27,6 +28,7 @@ jobs:
         path: ${{ env.ARTIFACT_DIR }}
 
   reset-digital-twins:
+    name: 🔥👬 Reset Digital Twins
     runs-on: windows-latest
     needs: [build-provisioning]
     steps:
@@ -54,13 +56,14 @@ jobs:
         az dt model delete-all -n $adtName -g ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} -y
         az dt model create -n $adtName -g ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} --fd ./ontology
         
-    - name: 🐣 Create new twins and relationships
+    - name: 👬 Create new twins and relationships
       shell: pwsh
       run: |
         $adtEndpoint = az dt list -g ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} --query [0].hostName --output tsv
         ./CopyTheWorld.Provisioning.exe twins populate --file "./config/ctw.xlsx" --adtEndpoint https://$adtEndpoint
 
   add-devices:
+    name: 🌐 Add Devices
     runs-on: windows-latest
     needs: [build-provisioning]
     steps:
@@ -87,6 +90,7 @@ jobs:
         ./CopyTheWorld.Provisioning.exe iothub populate --file "./config/ctw.xlsx" --iotHub $iotHub
 
   create-mapping:
+    name: 🗺️ Create Mapping
     runs-on: windows-latest
     needs: [build-provisioning]
     steps:
