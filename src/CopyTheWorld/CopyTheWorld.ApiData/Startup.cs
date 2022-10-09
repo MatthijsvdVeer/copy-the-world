@@ -14,6 +14,7 @@ namespace CopyTheWorld.ApiData
             var adtEndpoint = builder.GetContext().Configuration["AdtEndpoint"];
             _ = builder.Services.AddSingleton(new DigitalTwinsClient(
                 new Uri($"https://{adtEndpoint}"), new DefaultAzureCredential()));
+            _ = builder.Services.AddSingleton<IWeatherFacade, WeatherFacade>();
         }
     }
 }

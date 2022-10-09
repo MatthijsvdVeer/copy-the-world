@@ -26,16 +26,20 @@ public sealed class ProcessEventHubMessageFunction
     {
         try
         {
+            #region Get The Mapping
             var rowKey = eventData.SystemProperties[id].ToString();
             var response = this.tableClient.GetEntity<MappingEntity>(rowKey, rowKey);
             var mappingDefinitions = JsonSerializer.Deserialize<MappingDefinition[]>(response.Value.Mapping);
-        
+            #endregion
+
+            #region Turn The Mapping Into Patches
             var jsonNode = JsonNode.Parse(eventData.EventBody);
             foreach (var mappingDefinition in mappingDefinitions)
             {
                 var propertyNode = GetJsonNodeByPath(jsonNode, mappingDefinition.Property);
                 var value = GetValueFromNode(mappingDefinition, propertyNode);
 
+                #region Fire The Patches
                 var twinPatch = new TwinPatch
                 {
                     Value = value,
@@ -46,7 +50,9 @@ public sealed class ProcessEventHubMessageFunction
                 var message = JsonSerializer.Serialize(twinPatch);
                 log.LogInformation(message);
                 await outputEvents.AddAsync(message);
+                #endregion
             }
+            #endregion
         }
         catch (Exception exception)
         {

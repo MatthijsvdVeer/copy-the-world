@@ -7,6 +7,7 @@ using Azure.DigitalTwins.Core;
 using Azure.Messaging.EventHubs;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
+using Shared;
 using System.Text.Json;
 
 public sealed class PatchProcessorFunction
