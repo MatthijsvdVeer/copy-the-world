@@ -15,7 +15,7 @@ internal class LevelBuilder : ITwinBuilder<Level>
         var level = new Level
         {
             Id = TwinUtility.CreateIdFromParts(building, levelId),
-            Name = levelId,
+            Name = $"Floor {levelId}",
             LevelNumber = dataRow.GetIntValue("ID")
         };
 
