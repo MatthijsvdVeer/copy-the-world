@@ -15,7 +15,7 @@ internal sealed class ZoneBuilder : ITwinBuilder<Zone>
         var zone = new Zone
         {
             Id = TwinUtility.CreateIdFromParts(building, level, id), 
-            Name = dataRow.GetStringValue("Name")
+            Name = $"Zone {dataRow.GetStringValue("Name")}"
         };
 
         var levelId = TwinUtility.CreateIdFromParts(building, level);

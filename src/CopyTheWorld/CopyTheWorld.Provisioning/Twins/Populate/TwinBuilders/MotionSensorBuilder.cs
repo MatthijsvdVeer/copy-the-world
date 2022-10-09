@@ -11,7 +11,7 @@ internal sealed class MotionSensorBuilder : ITwinBuilder<MotionSensor>
     {
         var id = dataRow.GetStringValue("ID");
         var target = dataRow.GetStringValue("Target");
-        var motionSensor = new MotionSensor {Id = id, Name = id, BatteryLevel = -1, LastValue = false, ExternalIds = { ["deviceId"] = id } };
+        var motionSensor = new MotionSensor {Id = id, Name = "Motion Sensor", BatteryLevel = -1, LastValue = false, ExternalIds = { ["deviceId"] = id } };
         var relationship = TwinUtility.GetRelationshipFor(id, "observes", target);
         return (motionSensor, relationship);
     }
