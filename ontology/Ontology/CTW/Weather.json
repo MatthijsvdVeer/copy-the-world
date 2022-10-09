@@ -1,0 +1,35 @@
+{
+    "@id": "dtmi:digitaltwins:ctw:Weather;1",
+    "@type": "Interface",
+    "contents": [
+      {
+        "@type": "Property",
+        "description": {
+          "en": "The weather conditions"
+        },
+        "displayName": {
+          "en": "conditions"
+        },
+        "name": "Conditions",
+        "schema": "string"
+      },
+      {
+        "@type": "Property",
+        "description": {
+          "en": "The temperature"
+        },
+        "displayName": {
+          "en": "temperature"
+        },
+        "name": "Temperature",
+        "schema": "double"
+      }
+    ],
+    "description": {
+      "en": "The weather."
+    },
+    "displayName": {
+      "en": "Weather"
+    },
+    "@context": "dtmi:dtdl:context;2"
+  }
