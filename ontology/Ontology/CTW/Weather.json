@@ -21,7 +21,7 @@
         "displayName": {
           "en": "Temperature"
         },
-        "name": "cemperature",
+        "name": "temperature",
         "schema": "double"
       }
     ],
