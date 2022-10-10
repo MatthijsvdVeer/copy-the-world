@@ -5,6 +5,7 @@ using Microsoft.Azure.WebJobs.Extensions.EventGrid;
 using Microsoft.Extensions.Logging;
 using Azure.Messaging.EventGrid;
 using Azure.DigitalTwins.Core;
+using Shared;
 using System;
 using System.Text.Json;
 using System.Linq;

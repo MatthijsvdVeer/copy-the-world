@@ -7,6 +7,7 @@ using Azure.DigitalTwins.Core;
 using Azure.Messaging.EventHubs;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
+using Shared;
 using System.Text.Json;
 
 public sealed class PatchProcessorFunction
@@ -17,7 +18,10 @@ public sealed class PatchProcessorFunction
         this.digitalTwinsClient = digitalTwinsClient;
 
     [FunctionName("PatchProcessorFunction")]
-    public async Task Run([EventHubTrigger("patches", Connection = "PatchesListen", ConsumerGroup = "function")] EventData eventData, ILogger log)
+    public async Task Run(
+        [EventHubTrigger("patches", Connection = "PatchesListen", ConsumerGroup = "function")] 
+        EventData eventData, 
+        ILogger log)
     {
         log.LogInformation($"C# Event Hub trigger function processed a message: {eventData.EventBody}");
         var twinPatch = await JsonSerializer.DeserializeAsync<TwinPatch>(eventData.BodyAsStream);

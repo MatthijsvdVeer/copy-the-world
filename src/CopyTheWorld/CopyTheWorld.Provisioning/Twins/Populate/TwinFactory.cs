@@ -15,6 +15,7 @@ internal sealed class TwinFactory
             "Countries" => GetObjects(new CountryBuilder(), dataTable),
             "Cities" => GetObjects(new CityBuilder(), dataTable),
             "Buildings" => GetObjects(new BuildingBuilder(), dataTable),
+            "Weather" => GetObjects(new WeatherBuilder(), dataTable),
             "Levels" => GetObjects(new LevelBuilder(), dataTable),
             "Rooms" => GetObjects(new RoomBuilder(), dataTable),
             "PhoneBooths" => GetObjects(new PhoneBoothBuilder(), dataTable),

@@ -13,7 +13,6 @@ using System.Linq;
 
 public sealed class ProcessEventHubMessageFunction
 {
-    private const string id = "iothub-connection-device-id";
     private readonly TableClient tableClient;
 
     public ProcessEventHubMessageFunction(TableClient tableClient) => this.tableClient = tableClient;
@@ -26,16 +25,20 @@ public sealed class ProcessEventHubMessageFunction
     {
         try
         {
-            var rowKey = eventData.SystemProperties[id].ToString();
+            #region Get The Mapping
+            var rowKey = eventData.SystemProperties["iothub-connection-device-id"].ToString();
             var response = this.tableClient.GetEntity<MappingEntity>(rowKey, rowKey);
             var mappingDefinitions = JsonSerializer.Deserialize<MappingDefinition[]>(response.Value.Mapping);
-        
+            #endregion
+
+            #region Turn The Mapping Into Patches
             var jsonNode = JsonNode.Parse(eventData.EventBody);
             foreach (var mappingDefinition in mappingDefinitions)
             {
                 var propertyNode = GetJsonNodeByPath(jsonNode, mappingDefinition.Property);
                 var value = GetValueFromNode(mappingDefinition, propertyNode);
 
+                #region Fire The Patches
                 var twinPatch = new TwinPatch
                 {
                     Value = value,
@@ -46,7 +49,9 @@ public sealed class ProcessEventHubMessageFunction
                 var message = JsonSerializer.Serialize(twinPatch);
                 log.LogInformation(message);
                 await outputEvents.AddAsync(message);
+                #endregion
             }
+            #endregion
         }
         catch (Exception exception)
         {
