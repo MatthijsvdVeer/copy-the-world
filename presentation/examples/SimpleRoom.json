@@ -1,0 +1,33 @@
+{
+    "@id": "dtmi:digitaltwins:ctw:Room;1",
+    "@type": "Interface",
+    "contents": [
+        {
+            "@type": "Property",
+            "name": "name",
+            "schema": "string"
+        },
+        {
+            "@type": "Property",
+            "name": "co2Level",
+            "schema": "integer"
+        },
+        {
+            "@type": "Property",
+            "name": "temperature",
+            "schema": "double"
+        },
+        {
+            "@type": "Relationship",
+            "name": "contains",
+            "target": "dtmi:digitaltwins:ctw:Chair;1"
+        }
+    ],
+    "description": {
+        "en": "Space that can be occupied or where something can be done."
+    },
+    "displayName": {
+        "en": "Room"
+    },
+    "@context": "dtmi:dtdl:context;2"
+}

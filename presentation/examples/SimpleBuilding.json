@@ -1,0 +1,23 @@
+{
+    "@id": "dtmi:digitaltwins:ctw:Building;1",
+    "@type": "Interface",
+    "contents": [
+        {
+            "@type": "Property",
+            "name": "name",
+            "schema": "string"
+        },
+        {
+            "@type": "Relationship",
+            "name": "contains",
+            "target": "dtmi:digitaltwins:ctw:Room;1"
+        }
+    ],
+    "description": {
+        "en": "A building!"
+    },
+    "displayName": {
+        "en": "Building"
+    },
+    "@context": "dtmi:dtdl:context;2"
+}

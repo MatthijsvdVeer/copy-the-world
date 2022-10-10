@@ -1,0 +1,28 @@
+{
+    "@id": "dtmi:digitaltwins:ctw:Chair;1",
+    "@type": "Interface",
+    "contents": [
+        {
+            "@type": "Property",
+            "name": "row",
+            "schema": "integer"
+        },
+        {
+            "@type": "Property",
+            "name": "number",
+            "schema": "integer"
+        },
+        {
+            "@type": "Property",
+            "name": "occupied",
+            "schema": "boolean"
+        }
+    ],
+    "description": {
+        "en": "What has four legs and a back but no body?"
+    },
+    "displayName": {
+        "en": "Chair"
+    },
+    "@context": "dtmi:dtdl:context;2"
+}
