@@ -29,9 +29,11 @@ public class MotionSensorUpdateFunction
         try
         {
             #region Receive Message
-
+             
             var twinId = eventGridEvent.Subject;
             var twinUpdate = eventGridEvent.Data.ToObjectFromJson<TwinUpdate>();
+
+            // Are we even interested?
             var occupied = twinUpdate.Data.Patches
                 .SingleOrDefault(patch => string.Equals(patch.Path, "/lastValue"));
             if (occupied == null)
@@ -43,32 +45,33 @@ public class MotionSensorUpdateFunction
             #endregion
 
             #region Find Some Space
+
             const string query = @"
 SELECT space.$dtId FROM DIGITALTWINS sensors
 JOIN space RELATED sensors.observes
 WHERE sensors.$dtId = '{0}'";
 
-            var twins = this.digitalTwinsClient.Query<BasicDigitalTwin>(string.Format(query, twinId));
+            var queryWithId = string.Format(query, twinId);
+            var twin = this.digitalTwinsClient.Query<BasicDigitalTwin>(queryWithId).Single();
+
             #endregion
 
             #region Patch The Space
-            foreach (var twin in twins)
+            var twinPatch = new TwinPatch
             {
-                var twinPatch = new TwinPatch
-                {
-                    Value = occupied.Value,
-                    Property = "/occupancy/occupied",
-                    TwinId = twin.Id
-                };
+                Value = occupied.Value,
+                Property = "/occupancy/occupied",
+                TwinId = twin.Id
+            };
 
-                #region Fire the patches!
+            #endregion
 
-                var message = JsonSerializer.Serialize(twinPatch);
-                log.LogInformation(message);
-                await outputEvents.AddAsync(message);
-                
-                #endregion
-            }
+            #region Fire the patches!
+
+            var message = JsonSerializer.Serialize(twinPatch);
+            log.LogInformation(message);
+            await outputEvents.AddAsync(message);
+            
             #endregion
         }
         catch (Exception exception)

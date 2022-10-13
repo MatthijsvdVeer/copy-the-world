@@ -4,6 +4,6 @@ namespace CopyTheWorld.ApiData
 
     public interface IWeatherFacade
     {
-        Weather GetWeatherForCity(City city);
+        Weather GetWeatherForBuilding(Building building);
     }
 }
