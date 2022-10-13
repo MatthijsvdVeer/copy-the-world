@@ -28,34 +28,37 @@ public class WeatherDataFunction
     {
         #region Get the cities
         // Limitation, can't JOIN with $dtId filter.
-        const string query = "SELECT city.$dtId FROM DIGITALTWINS city WHERE IS_OF_MODEL(city, 'dtmi:digitaltwins:ctw:City;1')";
-        var cities = this.digitalTwinsClient.Query<BasicDigitalTwin>(query);
+        const string query = @"
+SELECT building.$dtId FROM DIGITALTWINS building 
+WHERE IS_OF_MODEL(building, 'dtmi:digitaltwins:ctw:Building;1')";
+
+        var buildings = this.digitalTwinsClient.Query<BasicDigitalTwin>(query);
         #endregion
 
         #region Get weather capabilities
 
-        var cityIds = cities.Select(twin => $"'{twin.Id}'");
+        var buildingIds = buildings.Select(twin => $"'{twin.Id}'");
         const string queryTemplate = @"
-SELECT city, weather.$dtId
-FROM DIGITALTWINS city
+SELECT building, weather.$dtId
+FROM DIGITALTWINS building
 JOIN weather RELATED weather.capabilityOf
-WHERE city.$dtId IN[{0}]
+WHERE building.$dtId IN[{0}]
 ";
-        var cityAndWeatherQuery = string.Format(queryTemplate, string.Join(',', cityIds));
-        var results = this.digitalTwinsClient.Query<WeatherAndCityResult>(cityAndWeatherQuery);
+        var buildingAndWeather = string.Format(queryTemplate, string.Join(',', buildingIds));
+        var results = this.digitalTwinsClient.Query<WeatherAndBuildingResult>(buildingAndWeather);
         
         #endregion
 
         #region Patch the weather
 
-        foreach (var weatherAndCityResult in results)
+        foreach (var weatherAndBuildingResult in results)
         {
-            var weather = this.weatherFacade.GetWeatherForCity(weatherAndCityResult.City);
+            var weather = this.weatherFacade.GetWeatherForBuilding(weatherAndBuildingResult.Building);
             var conditionsPatch = new TwinPatch
             {
                 Value = weather.Conditions,
                 Property = "/conditions",
-                TwinId = weatherAndCityResult.Weather.Id
+                TwinId = weatherAndBuildingResult.Weather.Id
             };
 
             await SendPatch(outputEvents, log, conditionsPatch);
@@ -64,7 +67,7 @@ WHERE city.$dtId IN[{0}]
             {
                 Value = weather.Temperature,
                 Property = "/temperature",
-                TwinId = weatherAndCityResult.Weather.Id
+                TwinId = weatherAndBuildingResult.Weather.Id
             };
 
             await SendPatch(outputEvents, log, temperaturePatch);

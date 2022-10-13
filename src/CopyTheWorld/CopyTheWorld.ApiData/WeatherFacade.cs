@@ -11,7 +11,7 @@ namespace CopyTheWorld.ApiData
 
         public WeatherFacade() => this.random = new Random();
 
-        public Weather GetWeatherForCity(City city) =>
+        public Weather GetWeatherForBuilding(Building building) =>
             new()
             {
                 Conditions = conditions[this.random.Next(conditions.Length)], Temperature = this.random.Next(0, 11)

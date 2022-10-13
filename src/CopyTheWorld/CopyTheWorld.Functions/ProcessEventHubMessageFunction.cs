@@ -26,12 +26,16 @@ public sealed class ProcessEventHubMessageFunction
         try
         {
             #region Get The Mapping
-            var rowKey = eventData.SystemProperties["iothub-connection-device-id"].ToString();
-            var response = this.tableClient.GetEntity<MappingEntity>(rowKey, rowKey);
-            var mappingDefinitions = JsonSerializer.Deserialize<MappingDefinition[]>(response.Value.Mapping);
+
+            var deviceId = eventData.SystemProperties["iothub-connection-device-id"].ToString();
+            var response = this.tableClient.GetEntity<MappingEntity>(deviceId, deviceId);
+            var mappingDefinitions = 
+                JsonSerializer.Deserialize<MappingDefinition[]>(response.Value.Mapping);
+
             #endregion
 
             #region Turn The Mapping Into Patches
+
             var jsonNode = JsonNode.Parse(eventData.EventBody);
             foreach (var mappingDefinition in mappingDefinitions)
             {
@@ -51,6 +55,7 @@ public sealed class ProcessEventHubMessageFunction
                 await outputEvents.AddAsync(message);
                 #endregion
             }
+
             #endregion
         }
         catch (Exception exception)

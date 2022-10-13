@@ -26,6 +26,8 @@ public sealed class PatchProcessorFunction
         log.LogInformation($"C# Event Hub trigger function processed a message: {eventData.EventBody}");
         var twinPatch = await JsonSerializer.DeserializeAsync<TwinPatch>(eventData.BodyAsStream);
 
+        #region Patch!
+
         try
         {
             await this.UpdateDigitalTwinAsync(twinPatch, PatchType.Replace);
@@ -40,6 +42,8 @@ public sealed class PatchProcessorFunction
 
             await this.UpdateDigitalTwinAsync(twinPatch, PatchType.Add);
         }
+
+        #endregion
     }
 
     private async Task UpdateDigitalTwinAsync(TwinPatch twinPatch, PatchType patchType)
