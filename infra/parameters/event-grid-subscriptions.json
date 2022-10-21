@@ -1,0 +1,22 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "subscriptions": {
+            "value": [
+                {
+                    "functionName": "MotionSensorUpdateFunction",
+                    "modelId": "dtmi:digitaltwins:ctw:MotionSensor;1"
+                },
+                {
+                    "functionName": "TemperatureSensorUpdateFunction",
+                    "modelId": "dtmi:digitaltwins:rec_3_3:device:TemperatureSensor;1"
+                },
+                {
+                    "functionName": "Co2SensorUpdateFunction",
+                    "modelId": "dtmi:digitaltwins:rec_3_3:device:CO2AirQualitySensor;1"
+                }
+            ]
+        }
+    }
+}

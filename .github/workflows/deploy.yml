@@ -6,7 +6,7 @@ on:
       - 'src/**'
       - 'infra/**'
   workflow_dispatch:
-name: Deploy
+name: 🚀 Deploy
 
 env:
   DOTNET_VERSION: '6.0' 
@@ -27,6 +27,7 @@ jobs:
       azureDigitalTwinsEndpoint: ${{ steps.deploy.outputs.azureDigitalTwinsEndpoint }}
       azureDigitalTwinsName: ${{ steps.deploy.outputs.azureDigitalTwinsName }}
       tableEndpoint: ${{ steps.deploy.outputs.tableEndpoint }}
+      eventGridTopicName: ${{ steps.deploy.outputs.eventGridTopicName }}
     steps:
 
     - uses: actions/checkout@v3
@@ -108,3 +109,24 @@ jobs:
       run: |
         az functionapp deploy --resource-group ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} --name ${{ needs.deploy-infra.outputs.functionsAppName }} --src-path CopyTheWorld.Functions.zip --type zip
         az functionapp config appsettings set  -g ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} -n ${{ needs.deploy-infra.outputs.functionsAppName }} --settings "PatchesListen=@Microsoft.KeyVault(SecretUri=${{ needs.deploy-infra.outputs.patchesListenSecretUrl }})" "PatchesSend=@Microsoft.KeyVault(SecretUri=${{ needs.deploy-infra.outputs.patchesSendSecretUrl }})" "IngressListen=@Microsoft.KeyVault(SecretUri=${{ needs.deploy-infra.outputs.ingressListenSecretUrl }})" "AdtEndpoint=${{ needs.deploy-infra.outputs.azureDigitalTwinsEndpoint }}" "TableEndpoint=${{ needs.deploy-infra.outputs.tableEndpoint }}" "TableName=mapping"
+  
+  deploy-event-grid-subscriptions:
+    name: 🔀 Deploy Event Grid Subscriptions
+    runs-on: ubuntu-latest
+    needs: [deploy-code]
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: 🔑 Azure Login 
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: 🏗️ Deploy
+      id: deploy
+      uses: azure/arm-deploy@v1
+      with:
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        resourceGroupName: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
+        template: ./infra/event-grid-subscriptions.bicep
+        parameters: './infra/parameters/event-grid-subscriptions.json functionAppName=${{ needs.deploy-infra.outputs.functionAppName }} eventGridTopicName=${{ needs.deploy-infra.outputs.eventGridTopicName }}'
