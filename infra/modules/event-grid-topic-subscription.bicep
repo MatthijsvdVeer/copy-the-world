@@ -6,6 +6,7 @@ param functionName string
 resource topic 'Microsoft.EventGrid/topics@2022-06-15' existing = {
   name: eventGridTopicName
 }
+
 resource functionApp 'Microsoft.Web/sites@2020-06-01' existing = {
   name: functionAppName
 }
