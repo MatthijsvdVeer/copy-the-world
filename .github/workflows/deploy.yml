@@ -19,7 +19,6 @@ jobs:
     outputs:
       apiDataAppName: ${{ steps.deploy.outputs.apiDataAppName }}
       simulationAppName: ${{ steps.deploy.outputs.simulationAppName }}
-      functionsAppName: ${{ steps.deploy.outputs.functionsAppName }}
       patchesListenSecretUrl: ${{ steps.deploy.outputs.patchesListenSecretUrl }}
       patchesSendSecretUrl: ${{ steps.deploy.outputs.patchesSendSecretUrl }}
       ingressListenSecretUrl: ${{ steps.deploy.outputs.ingressListenSecretUrl }}
@@ -28,6 +27,7 @@ jobs:
       azureDigitalTwinsName: ${{ steps.deploy.outputs.azureDigitalTwinsName }}
       tableEndpoint: ${{ steps.deploy.outputs.tableEndpoint }}
       eventGridTopicName: ${{ steps.deploy.outputs.eventGridTopicName }}
+      functionAppName: ${{ steps.deploy.outputs.functionAppName }}
     steps:
 
     - uses: actions/checkout@v3
