@@ -107,8 +107,8 @@ jobs:
     - name: 🚀 Deploy Core Functions
       shell: pwsh
       run: |
-        az functionapp deploy --resource-group ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} --name ${{ needs.deploy-infra.outputs.functionsAppName }} --src-path CopyTheWorld.Functions.zip --type zip
-        az functionapp config appsettings set  -g ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} -n ${{ needs.deploy-infra.outputs.functionsAppName }} --settings "PatchesListen=@Microsoft.KeyVault(SecretUri=${{ needs.deploy-infra.outputs.patchesListenSecretUrl }})" "PatchesSend=@Microsoft.KeyVault(SecretUri=${{ needs.deploy-infra.outputs.patchesSendSecretUrl }})" "IngressListen=@Microsoft.KeyVault(SecretUri=${{ needs.deploy-infra.outputs.ingressListenSecretUrl }})" "AdtEndpoint=${{ needs.deploy-infra.outputs.azureDigitalTwinsEndpoint }}" "TableEndpoint=${{ needs.deploy-infra.outputs.tableEndpoint }}" "TableName=mapping"
+        az functionapp deploy --resource-group ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} --name ${{ needs.deploy-infra.outputs.functionAppName }} --src-path CopyTheWorld.Functions.zip --type zip
+        az functionapp config appsettings set  -g ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} -n ${{ needs.deploy-infra.outputs.functionAppName }} --settings "PatchesListen=@Microsoft.KeyVault(SecretUri=${{ needs.deploy-infra.outputs.patchesListenSecretUrl }})" "PatchesSend=@Microsoft.KeyVault(SecretUri=${{ needs.deploy-infra.outputs.patchesSendSecretUrl }})" "IngressListen=@Microsoft.KeyVault(SecretUri=${{ needs.deploy-infra.outputs.ingressListenSecretUrl }})" "AdtEndpoint=${{ needs.deploy-infra.outputs.azureDigitalTwinsEndpoint }}" "TableEndpoint=${{ needs.deploy-infra.outputs.tableEndpoint }}" "TableName=mapping"
   
   deploy-event-grid-subscriptions:
     name: 🔀 Deploy Event Grid Subscriptions
